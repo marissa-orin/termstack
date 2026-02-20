@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Term Stack — AI-Native Law Firm for Startups</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --off-black: #161616;
+    --dark: #1C1C1C;
+    --charcoal: #2A2A2A;
+    --gray-700: #404040;
+    --gray-500: #6B6B6B;
+    --gray-400: #8A8A8A;
+    --gray-300: #ABABAB;
+    --gray-200: #D4D4D4;
+    --gray-100: #ECECEC;
+    --white: #FFFFFF;
+    --cloud: #C8DFF5;
+    --cloud-mid: #A3C8ED;
+    --cloud-deep: #6BA3D6;
+    --cloud-muted: rgba(200, 223, 245, 0.08);
+    --cloud-glow: rgba(200, 223, 245, 0.15);
+
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-body: 'Libre Franklin', -apple-system, sans-serif;
+
+    --radius: 0px;
+    --radius-sm: 0px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--white);
+    background: var(--black);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--cloud);
+    color: var(--black);
+  }
+
+  /* ========== NAV ========== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,13,13,0.9);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-inner {
+    max-width: 1240px; margin: 0 auto;
+    padding: 0 40px; height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  /* Logo: "Term Stack" in a box */
+  .logo {
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--white);
+    padding: 6px 14px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .logo:hover {
+    border-color: var(--cloud);
+    background: rgba(200,223,245,0.05);
+  }
+  .logo-text {
+    font-family: var(--font-body);
+    font-weight: 800; font-size: 0.8rem;
+    color: var(--white);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .logo:hover .logo-text { color: var(--cloud); }
+
+  .nav-links { display: flex; align-items: center; gap: 40px; }
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500;
+    color: var(--gray-400); text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--white) !important; color: var(--black) !important;
+    padding: 10px 24px;
+    font-weight: 700 !important; font-size: 0.8rem !important;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: all 0.3s !important;
+  }
+  .nav-cta:hover {
+    background: var(--cloud) !important;
+    color: var(--black) !important;
+  }
+  .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--white); margin: 5px 0; transition: 0.3s; }
+
+  /* ========== HERO ========== */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 40px 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Subtle grid texture */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+  }
+  /* Cloud blue glow */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -20%; right: -10%;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, var(--cloud-glow) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1240px; margin: 0 auto; width: 100%;
+    position: relative; z-index: 1;
+  }
+  .hero-eyebrow {
+    font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--cloud);
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--cloud);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3.2rem, 7vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    max-width: 900px;
+    margin-bottom: 32px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--cloud);
+  }
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--gray-400);
+    max-width: 540px;
+    line-height: 1.75;
+    margin-bottom: 48px;
+    font-weight: 400;
+  }
+  .hero-actions { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--white); color: var(--black);
+    padding: 18px 36px;
+    font-weight: 700; font-size: 0.82rem;
+    text-decoration: none; border: none; cursor: pointer;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: all 0.3s ease;
+    font-family: var(--font-body);
+  }
+  .btn-primary:hover {
+    background: var(--cloud);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(200,223,245,0.15);
+  }
+  .btn-primary svg { transition: transform 0.2s; }
+  .btn-primary:hover svg { transform: translateX(4px); }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--gray-300);
+    padding: 18px 32px;
+    font-weight: 500; font-size: 0.85rem;
+    text-decoration: none;
+    border: 1px solid var(--charcoal);
+    letter-spacing: 0.03em;
+    transition: all 0.3s;
+    font-family: var(--font-body);
+  }
+  .btn-ghost:hover {
+    border-color: var(--gray-500);
+    color: var(--white);
+  }
+
+  /* Scrolling ticker */
+  .hero-ticker {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 48px;
+    overflow: hidden;
+  }
+  .ticker-label {
+    font-size: 0.7rem; font-weight: 600;
+    color: var(--gray-500);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ticker-items {
+    display: flex; gap: 48px; align-items: center;
+    animation: scroll 20s linear infinite;
+  }
+  .ticker-items span {
+    font-family: var(--font-body);
+    font-weight: 700; font-size: 1rem;
+    color: var(--gray-500);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ========== SECTION UTILITIES ========== */
+  .section-pad { padding: 140px 40px; }
+  .section-inner { max-width: 1240px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--cloud);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .section-sub {
+    font-size: 1.05rem;
+    color: var(--gray-400);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    max-width: 1240px; margin: 0 auto;
+  }
+
+  /* ========== AGENTS ========== */
+  .agents { background: var(--off-black); }
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    margin-top: 64px;
+  }
+  .agent-card {
+    background: var(--off-black);
+    padding: 48px 40px;
+    position: relative;
+    transition: all 0.4s ease;
+  }
+  .agent-card:hover {
+    background: var(--dark);
+  }
+  .agent-card::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--cloud);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+  }
+  .agent-card:hover::after { transform: scaleX(1); }
+  .agent-number {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    color: rgba(255,255,255,0.04);
+    font-style: italic;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .agent-label {
+    font-size: 0.7rem; font-weight: 700;
+    color: var(--cloud);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .agent-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem; font-weight: 400;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .agent-card p {
+    font-size: 0.9rem;
+    color: var(--gray-400);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .agent-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .agent-tag {
+    font-size: 0.72rem; font-weight: 600;
+    color: var(--gray-300);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 6px 14px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ========== HOW IT WORKS ========== */
+  .how-it-works { background: var(--black); }
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 64px;
+    position: relative;
+  }
+  .how-step {
+    padding: 40px 36px;
+    border-left: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+  }
+  .how-step:first-child { border-left: none; }
+  .how-step-num {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--cloud);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .how-step-num::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+  .how-step h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem; font-weight: 400;
+    color: var(--white);
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+  .how-step p {
+    font-size: 0.85rem;
+    color: var(--gray-500);
+    line-height: 1.7;
+  }
+
+  /* ========== SLACK ========== */
+  .slack-section { background: var(--off-black); }
+  .slack-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 64px;
+  }
+  .slack-visual {
+    background: var(--dark);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 32px;
+    position: relative;
+  }
+  .slack-window-bar {
+    display: flex; gap: 6px; margin-bottom: 24px;
+  }
+  .slack-window-bar span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--charcoal);
+  }
+  .slack-msg {
+    display: flex; gap: 14px;
+    margin-bottom: 20px;
+    animation: msgFade 0.5s ease-out backwards;
+  }
+  .slack-msg:nth-child(2) { animation-delay: 0.3s; }
+  .slack-msg:nth-child(3) { animation-delay: 0.6s; }
+  .slack-msg:nth-child(4) { animation-delay: 0.9s; }
+  @keyframes msgFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .slack-avatar {
+    width: 32px; height: 32px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700;
+    border-radius: 4px;
+  }
+  .slack-avatar.user { background: var(--charcoal); color: var(--gray-300); }
+  .slack-avatar.bot { background: var(--cloud); color: var(--black); }
+  .slack-msg-body { flex: 1; }
+  .slack-msg-name {
+    font-size: 0.78rem; font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .slack-msg-name span {
+    font-weight: 400;
+    color: var(--gray-500);
+    font-size: 0.7rem;
+    margin-left: 8px;
+  }
+  .slack-msg-text {
+    font-size: 0.85rem;
+    color: var(--gray-300);
+    line-height: 1.6;
+  }
+  .slack-msg-text code {
+    background: rgba(200,223,245,0.08);
+    color: var(--cloud);
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    font-family: 'SF Mono', monospace;
+  }
+  .slack-content h3 {
+    font-family: var(--font-display);
+    font-size: 1.8rem; font-weight: 400;
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .slack-content p {
+    font-size: 0.95rem;
+    color: var(--gray-400);
+    line-height: 1.75;
+    margin-bottom: 32px;
+  }
+  .slack-features {
+    list-style: none;
+  }
+  .slack-features li {
+    font-size: 0.88rem;
+    color: var(--gray-300);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .slack-features li::before {
+    content: '→';
+    color: var(--cloud);
+    font-weight: 500;
+  }
+
+  /* ========== PRICING ========== */
+  .pricing { background: var(--black); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    margin-top: 64px;
+  }
+  .pricing-card {
+    background: var(--black);
+    padding: 48px 40px;
+    display: flex; flex-direction: column;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .pricing-card:hover { background: var(--off-black); }
+  .pricing-card.featured {
+    background: var(--off-black);
+  }
+  .pricing-card.featured::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: var(--cloud);
+  }
+  .pricing-tier {
+    font-size: 0.7rem; font-weight: 700;
+    color: var(--gray-500);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .pricing-card.featured .pricing-tier { color: var(--cloud); }
+  .pricing-price {
+    font-family: var(--font-display);
+    font-size: 3rem; font-weight: 400;
+    color: var(--white);
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+  .pricing-period {
+    font-size: 0.8rem; color: var(--gray-500);
+    margin-bottom: 32px;
+  }
+  .pricing-desc {
+    font-size: 0.88rem;
+    color: var(--gray-400);
+    line-height: 1.65;
+    margin-bottom: 32px;
+    flex: 1;
+  }
+  .pricing-features {
+    list-style: none;
+    margin-bottom: 36px;
+    flex: 1;
+  }
+  .pricing-features li {
+    font-size: 0.85rem; color: var(--gray-300);
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .pricing-features li::before {
+    content: '✓'; color: var(--cloud);
+    font-weight: 700; flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .pricing-btn {
+    display: block; width: 100%; text-align: center;
+    padding: 16px 24px;
+    font-weight: 700; font-size: 0.78rem;
+    text-decoration: none;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: all 0.3s;
+    cursor: pointer; border: none;
+    font-family: var(--font-body);
+  }
+  .pricing-btn.outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--white);
+  }
+  .pricing-btn.outline:hover {
+    border-color: var(--cloud);
+    color: var(--cloud);
+  }
+  .pricing-btn.filled {
+    background: var(--white);
+    color: var(--black);
+    border: 1px solid var(--white);
+  }
+  .pricing-btn.filled:hover {
+    background: var(--cloud);
+    border-color: var(--cloud);
+  }
+
+  /* ========== FAQ ========== */
+  .faq { background: var(--off-black); }
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 80px;
+    margin-top: 64px;
+  }
+  .faq-item {
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 28px 0;
+  }
+  .faq-q {
+    font-family: var(--font-display);
+    font-size: 1.1rem; font-weight: 400;
+    color: var(--white);
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 16px;
+    transition: color 0.2s;
+  }
+  .faq-q:hover { color: var(--cloud); }
+  .faq-q .faq-toggle {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    color: var(--gray-500);
+    flex-shrink: 0;
+    transition: transform 0.3s, color 0.2s;
+    width: 24px; text-align: center;
+    user-select: none;
+  }
+  .faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--cloud); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+  }
+  .faq-item.open .faq-a {
+    max-height: 200px;
+    padding-top: 16px;
+  }
+  .faq-a p {
+    font-size: 0.88rem;
+    color: var(--gray-400);
+    line-height: 1.7;
+  }
+
+  /* ========== FINAL CTA ========== */
+  .final-cta {
+    padding: 160px 40px;
+    background: var(--black);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 80%, var(--cloud-glow) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .final-cta::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+  }
+  .cta-inner {
+    max-width: 700px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+  .final-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .final-cta h2 em { font-style: italic; color: var(--cloud); }
+  .final-cta p {
+    font-size: 1.05rem;
+    color: var(--gray-500);
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+  .cta-note {
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: var(--gray-500);
+    letter-spacing: 0.02em;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    padding: 60px 40px 40px;
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-inner {
+    max-width: 1240px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-links { display: flex; gap: 32px; }
+  .footer-links a {
+    font-size: 0.8rem; color: var(--gray-500);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-copy {
+    font-size: 0.78rem; color: var(--gray-500);
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 1024px) {
+    .agents-grid { grid-template-columns: 1fr; }
+    .how-grid { grid-template-columns: repeat(2, 1fr); }
+    .slack-grid { grid-template-columns: 1fr; gap: 48px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .faq-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .section-pad { padding: 100px 24px; }
+    .hero { padding: 120px 24px 80px; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .nav-inner { padding: 0 24px; }
+    .how-grid { grid-template-columns: 1fr; }
+    .how-step { border-left: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .hero-ticker { display: none; }
+    .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    .agent-card { padding: 36px 28px; }
+    .pricing-card { padding: 36px 28px; }
+    .final-cta { padding: 100px 24px; }
+  }
+
+  /* ========== SCROLL ANIMATIONS ========== */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-text">Term Stack</span>
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="nav-cta">Book a demo</a>
+    </div>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow reveal">The AI-native law firm for startups</div>
+    <h1 class="reveal reveal-delay-1">Your startup deserves<br>a <em>legal stack.</em></h1>
+    <p class="hero-sub reveal reveal-delay-2">Term Stack replaces your expensive law firm with three AI agents that handle corporate governance, contracts, and venture financing — from incorporation to Series A and beyond.</p>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="btn-primary">
+        Book a demo
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+    </div>
+
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AGENTS -->
+<section class="agents section-pad" id="agents">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Three agents. Full coverage.</div>
+    <h2 class="section-title reveal">Every legal need,<br>one platform.</h2>
+    <p class="section-sub reveal">Each agent is purpose-built for a category of startup legal work. Ask questions, draft documents, or get a full review — in minutes, not weeks.</p>
+
+    <div class="agents-grid">
+      <div class="agent-card reveal">
+        <div class="agent-number">01</div>
+        <div class="agent-label">Corporate Agent</div>
+        <h3>Governance, IP &<br>compliance answers</h3>
+        <p>Get instant, cited answers on intellectual property protection, marketing compliance, board governance, and corporate structure. Like having a corporate attorney on call 24/7.</p>
+        <div class="agent-tags">
+          <span class="agent-tag">IP Protection</span>
+          <span class="agent-tag">Marketing Compliance</span>
+          <span class="agent-tag">Board Governance</span>
+          <span class="agent-tag">Corporate Structure</span>
+        </div>
+      </div>
+      <div class="agent-card reveal reveal-delay-1">
+        <div class="agent-number">02</div>
+        <div class="agent-label">Commercial Agent</div>
+        <h3>Draft and review<br>every contract</h3>
+        <p>Generate NDAs, MSAs, SOWs, and service agreements from proven templates. Upload counterparty redlines and get a clause-by-clause risk analysis with suggested edits.</p>
+        <div class="agent-tags">
+          <span class="agent-tag">Contract Drafting</span>
+          <span class="agent-tag">Redline Review</span>
+          <span class="agent-tag">Risk Analysis</span>
+          <span class="agent-tag">Template Library</span>
+        </div>
+      </div>
+      <div class="agent-card reveal reveal-delay-2">
+        <div class="agent-number">03</div>
+        <div class="agent-label">Transactions Agent</div>
+        <h3>NVCA docs for<br>your next raise</h3>
+        <p>Generate complete NVCA venture financing packages — term sheets, stock purchase agreements, investor rights agreements, and more. Benchmarked against current market terms.</p>
+        <div class="agent-tags">
+          <span class="agent-tag">NVCA Agreements</span>
+          <span class="agent-tag">SAFEs & Notes</span>
+          <span class="agent-tag">Term Sheets</span>
+          <span class="agent-tag">Market Benchmarks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works section-pad" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">How it works</div>
+    <h2 class="section-title reveal">From question to<br>signed document.</h2>
+    <p class="section-sub reveal">No billable hours. No back-and-forth emails. No 2-week turnarounds.</p>
+
+    <div class="how-grid">
+      <div class="how-step reveal">
+        <div class="how-step-num">i.</div>
+        <h3>Connect Slack</h3>
+        <p>Add Term Stack to your workspace. Your agents live in channels your team already uses.</p>
+      </div>
+      <div class="how-step reveal reveal-delay-1">
+        <div class="how-step-num">ii.</div>
+        <h3>Ask or request</h3>
+        <p>Tag the right agent with a question or document request. Natural language — no legal jargon required.</p>
+      </div>
+      <div class="how-step reveal reveal-delay-2">
+        <div class="how-step-num">iii.</div>
+        <h3>Review & refine</h3>
+        <p>Get drafts, answers, or risk analysis back in minutes. Iterate in-thread until it's exactly right.</p>
+      </div>
+      <div class="how-step reveal reveal-delay-3">
+        <div class="how-step-num">iv.</div>
+        <h3>Sign & close</h3>
+        <p>Export polished, attorney-reviewed documents ready for signature. Keep everything organized in your workspace.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SLACK INTEGRATION -->
+<section class="slack-section section-pad" id="slack">
+  <div class="section-inner">
+    <div class="slack-grid">
+      <div class="slack-visual reveal">
+        <div class="slack-window-bar">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="slack-msg">
+          <div class="slack-avatar user">AK</div>
+          <div class="slack-msg-body">
+            <div class="slack-msg-name">Alex Kim <span>10:42 AM</span></div>
+            <div class="slack-msg-text">@termstack-commercial Can you draft an NDA for a potential enterprise customer? Standard mutual, 2-year term.</div>
+          </div>
+        </div>
+        <div class="slack-msg">
+          <div class="slack-avatar bot">TS</div>
+          <div class="slack-msg-body">
+            <div class="slack-msg-name">Term Stack <span>10:42 AM</span></div>
+            <div class="slack-msg-text">Drafting your mutual NDA now. I'll use the standard template with a 2-year confidentiality period and carve-outs for independently developed information. One moment...</div>
+          </div>
+        </div>
+        <div class="slack-msg">
+          <div class="slack-avatar bot">TS</div>
+          <div class="slack-msg-body">
+            <div class="slack-msg-name">Term Stack <span>10:43 AM</span></div>
+            <div class="slack-msg-text">Done. Here's your NDA → <code>Mutual_NDA_Enterprise.docx</code><br>Key terms: Mutual obligations · 2-year term · Standard exceptions · Delaware law. Want me to adjust anything?</div>
+          </div>
+        </div>
+      </div>
+      <div class="slack-content reveal">
+        <div class="section-eyebrow">Slack-native</div>
+        <h3>Legal help where your team already works.</h3>
+        <p>No new tools to learn. No portals to log into. Just tag an agent in Slack and get answers, drafts, and reviews right in your workflow.</p>
+        <ul class="slack-features">
+          <li>Ask legal questions in natural language</li>
+          <li>Generate documents directly in channels</li>
+          <li>Get contract reviews with redline summaries</li>
+          <li>Thread-based iteration — refine until it's perfect</li>
+          <li>Full audit trail of every interaction</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section class="pricing section-pad" id="pricing">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Pricing</div>
+    <h2 class="section-title reveal">Legal that scales<br>with your stage.</h2>
+    <p class="section-sub reveal">No billable hours. No surprise invoices. Just the coverage you need.</p>
+
+    <div class="pricing-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 860px; margin-left: auto; margin-right: auto; margin-top: 64px;">
+      <div class="pricing-card reveal">
+        <div class="pricing-tier">Startup</div>
+        <div class="pricing-desc">For early-stage teams that need corporate governance, contract drafting, and foundational legal support.</div>
+        <ul class="pricing-features">
+          <li>Corporate Agent — governance, IP & compliance</li>
+          <li>Commercial Agent — contracts & review</li>
+          <li>Dedicated support</li>
+        </ul>
+        <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="pricing-btn outline">Book a demo</a>
+      </div>
+      <div class="pricing-card featured reveal reveal-delay-1">
+        <div class="pricing-tier">Growth</div>
+        <div class="pricing-desc">For companies raising capital and scaling operations. Full access to all three agents and venture financing tools.</div>
+        <ul class="pricing-features">
+          <li>Everything in Startup</li>
+          <li>Transactions Agent — NVCA packages</li>
+          <li>Dedicated support</li>
+        </ul>
+        <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="pricing-btn filled">Book a demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="faq section-pad" id="faq">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">FAQ</div>
+    <h2 class="section-title reveal">Common questions.</h2>
+
+    <div class="faq-grid">
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Is this actual legal advice?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">
+          <p>Term Stack provides legal information and document drafting powered by AI. For jurisdiction-specific legal advice, our Scale plan includes attorney review. We always recommend having critical documents reviewed by licensed counsel.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          What are NVCA agreements?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">
+          <p>NVCA (National Venture Capital Association) documents are the industry-standard templates for venture financing. They include term sheets, stock purchase agreements, investor rights agreements, and more. Our Transactions Agent generates these customized to your deal terms.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          How does Slack integration work?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">
+          <p>Install the Term Stack app in your Slack workspace. Each agent gets its own bot you can tag in any channel or DM. Ask questions, request documents, or upload contracts for review — all within your normal workflow.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Is my data secure?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes. All data is encrypted in transit and at rest. We never train on your data.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          What stage startups do you support?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">
+          <p>Term Stack is built for pre-seed through Series B companies. Our agents cover everything from incorporation and your first SAFE to full NVCA financing packages for priced rounds.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="book">
+  <div class="cta-inner">
+    <div class="section-eyebrow reveal" style="text-align:center;">Stop overpaying for legal</div>
+    <h2 class="reveal">Fire your law firm.<br>Hire <em>Term Stack.</em></h2>
+
+    <a href="#" class="btn-primary reveal">
+      Book a demo
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="logo" style="border-color: var(--gray-500);">
+      <span class="logo-text" style="color: var(--gray-500);">Term Stack</span>
+    </a>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Security</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Term Stack.</div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.borderBottomColor =
+    window.scrollY > 20 ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.06)';
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
