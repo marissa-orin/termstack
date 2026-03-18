@@ -3,32 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Termstack — AI-Native Law Firm for Startups</title>
+<title>Termstack — Legal Agents for AI Startups</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black: #0D0D0D;
-    --off-black: #161616;
-    --dark: #1C1C1C;
+    --cream: #F5EDE3;
+    --cream-dark: #EDE3D5;
+    --cream-deep: #E0D4C4;
+    --white: #FFFFFF;
+    --navy: #1A2744;
+    --navy-light: #2A3B5C;
+    --ink: #1C1C1C;
     --charcoal: #2A2A2A;
-    --gray-700: #404040;
+    --slate: #4A4A4A;
+    --gray-600: #5C5C5C;
     --gray-500: #6B6B6B;
     --gray-400: #8A8A8A;
     --gray-300: #ABABAB;
-    --gray-200: #D4D4D4;
-    --gray-100: #ECECEC;
-    --white: #FFFFFF;
-    --cloud: #C8DFF5;
-    --cloud-mid: #A3C8ED;
-    --cloud-deep: #6BA3D6;
-    --cloud-muted: rgba(200, 223, 245, 0.08);
-    --cloud-glow: rgba(200, 223, 245, 0.15);
+    --coral: #D4795A;
+    --coral-light: rgba(212, 121, 90, 0.1);
+    --coral-hover: #C06A4C;
+    --navy-muted: rgba(26, 39, 68, 0.06);
 
     --font-display: 'Instrument Serif', Georgia, serif;
     --font-body: 'Libre Franklin', -apple-system, sans-serif;
-
-    --radius: 0px;
-    --radius-sm: 0px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,64 +34,62 @@
 
   body {
     font-family: var(--font-body);
-    color: var(--white);
-    background: var(--black);
+    color: var(--ink);
+    background: var(--cream);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 
   ::selection {
-    background: var(--cloud);
-    color: var(--black);
+    background: var(--navy);
+    color: var(--white);
   }
 
   /* ========== NAV ========== */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(13,13,13,0.9);
+    background: rgba(245, 237, 227, 0.92);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
   }
   .nav-inner {
     max-width: 1240px; margin: 0 auto;
     padding: 0 40px; height: 72px;
     display: flex; align-items: center; justify-content: space-between;
   }
-
-  /* Logo: "Termstack" in a box */
   .logo {
     display: inline-flex; align-items: center; justify-content: center;
-    border: 2px solid var(--white);
+    border: 2px solid var(--navy);
     padding: 6px 14px;
     text-decoration: none;
     transition: all 0.3s;
   }
   .logo:hover {
-    border-color: var(--cloud);
-    background: rgba(200,223,245,0.05);
+    border-color: var(--coral);
+    background: var(--coral-light);
   }
   .logo-text {
     font-family: var(--font-body);
     font-weight: 800; font-size: 0.8rem;
-    color: var(--white);
+    color: var(--navy);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     line-height: 1;
   }
-  .logo:hover .logo-text { color: var(--cloud); }
+  .logo:hover .logo-text { color: var(--coral); }
 
   .nav-links { display: flex; align-items: center; gap: 40px; }
   .nav-links a {
     font-size: 0.82rem; font-weight: 500;
-    color: var(--gray-400); text-decoration: none;
+    color: var(--gray-500); text-decoration: none;
     letter-spacing: 0.03em;
     transition: color 0.2s;
   }
-  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover { color: var(--navy); }
   .nav-cta {
-    background: var(--white) !important; color: var(--black) !important;
+    background: var(--navy) !important; color: var(--white) !important;
     padding: 10px 24px;
     font-weight: 700 !important; font-size: 0.8rem !important;
     letter-spacing: 0.06em;
@@ -101,11 +97,11 @@
     transition: all 0.3s !important;
   }
   .nav-cta:hover {
-    background: var(--cloud) !important;
-    color: var(--black) !important;
+    background: var(--coral) !important;
+    color: var(--white) !important;
   }
   .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
-  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--white); margin: 5px 0; transition: 0.3s; }
+  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--navy); margin: 5px 0; transition: 0.3s; }
 
   /* ========== HERO ========== */
   .hero {
@@ -114,24 +110,23 @@
     padding: 120px 40px 100px;
     position: relative;
     overflow: hidden;
+    background: var(--cream);
   }
-  /* Subtle grid texture */
   .hero::before {
     content: '';
     position: absolute; inset: 0;
     background-image:
-      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
     background-size: 80px 80px;
     pointer-events: none;
   }
-  /* Cloud blue glow */
   .hero::after {
     content: '';
     position: absolute;
     top: -20%; right: -10%;
     width: 700px; height: 700px;
-    background: radial-gradient(circle, var(--cloud-glow) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(212,121,90,0.08) 0%, transparent 65%);
     pointer-events: none;
   }
   .hero-inner {
@@ -141,14 +136,14 @@
   .hero-eyebrow {
     font-size: 0.78rem; font-weight: 600;
     letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--cloud);
+    color: var(--coral);
     margin-bottom: 28px;
     display: flex; align-items: center; gap: 12px;
   }
   .hero-eyebrow::before {
     content: '';
     width: 32px; height: 1px;
-    background: var(--cloud);
+    background: var(--coral);
   }
   .hero h1 {
     font-family: var(--font-display);
@@ -156,18 +151,18 @@
     font-weight: 400;
     line-height: 1.05;
     letter-spacing: -0.02em;
-    color: var(--white);
+    color: var(--navy);
     max-width: 900px;
     margin-bottom: 32px;
   }
   .hero h1 em {
     font-style: italic;
-    color: var(--cloud);
+    color: var(--coral);
   }
   .hero-sub {
     font-size: 1.15rem;
-    color: var(--gray-400);
-    max-width: 540px;
+    color: var(--gray-600);
+    max-width: 560px;
     line-height: 1.75;
     margin-bottom: 48px;
     font-weight: 400;
@@ -176,7 +171,7 @@
 
   .btn-primary {
     display: inline-flex; align-items: center; gap: 10px;
-    background: var(--white); color: var(--black);
+    background: var(--navy); color: var(--white);
     padding: 18px 36px;
     font-weight: 700; font-size: 0.82rem;
     text-decoration: none; border: none; cursor: pointer;
@@ -185,68 +180,20 @@
     font-family: var(--font-body);
   }
   .btn-primary:hover {
-    background: var(--cloud);
+    background: var(--coral);
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(200,223,245,0.15);
+    box-shadow: 0 8px 30px rgba(212,121,90,0.2);
   }
   .btn-primary svg { transition: transform 0.2s; }
   .btn-primary:hover svg { transform: translateX(4px); }
 
-  .btn-ghost {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: transparent; color: var(--gray-300);
-    padding: 18px 32px;
-    font-weight: 500; font-size: 0.85rem;
-    text-decoration: none;
-    border: 1px solid var(--charcoal);
-    letter-spacing: 0.03em;
-    transition: all 0.3s;
-    font-family: var(--font-body);
-  }
-  .btn-ghost:hover {
-    border-color: var(--gray-500);
-    color: var(--white);
-  }
-
-  /* Scrolling ticker */
-  .hero-ticker {
-    margin-top: 80px;
-    padding-top: 40px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex; align-items: center; gap: 48px;
-    overflow: hidden;
-  }
-  .ticker-label {
-    font-size: 0.7rem; font-weight: 600;
-    color: var(--gray-500);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .ticker-items {
-    display: flex; gap: 48px; align-items: center;
-    animation: scroll 20s linear infinite;
-  }
-  .ticker-items span {
-    font-family: var(--font-body);
-    font-weight: 700; font-size: 1rem;
-    color: var(--gray-500);
-    white-space: nowrap;
-    letter-spacing: 0.02em;
-  }
-  @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
   /* ========== SECTION UTILITIES ========== */
-  .section-pad { padding: 140px 40px; }
+  .section-pad { padding: 120px 40px; }
   .section-inner { max-width: 1240px; margin: 0 auto; }
   .section-eyebrow {
     font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--cloud);
+    color: var(--coral);
     margin-bottom: 16px;
   }
   .section-title {
@@ -255,44 +202,45 @@
     font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.02em;
-    color: var(--white);
+    color: var(--navy);
     margin-bottom: 20px;
   }
   .section-sub {
     font-size: 1.05rem;
-    color: var(--gray-400);
-    max-width: 520px;
+    color: var(--gray-600);
+    max-width: 540px;
     line-height: 1.7;
   }
   .divider {
     height: 1px;
-    background: rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.06);
     max-width: 1240px; margin: 0 auto;
   }
 
   /* ========== AGENTS ========== */
-  .agents { background: var(--off-black); }
+  .agents { background: var(--white); }
   .agents-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: rgba(255,255,255,0.06);
+    gap: 24px;
     margin-top: 64px;
   }
   .agent-card {
-    background: var(--off-black);
-    padding: 48px 40px;
+    background: var(--cream);
+    padding: 44px 36px;
     position: relative;
     transition: all 0.4s ease;
+    border: 1px solid rgba(0,0,0,0.04);
   }
   .agent-card:hover {
-    background: var(--dark);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
   }
   .agent-card::after {
     content: '';
     position: absolute; top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--cloud);
+    height: 3px;
+    background: var(--coral);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.5s ease;
@@ -301,14 +249,14 @@
   .agent-number {
     font-family: var(--font-display);
     font-size: 3.5rem;
-    color: rgba(255,255,255,0.04);
+    color: rgba(26,39,68,0.05);
     font-style: italic;
     line-height: 1;
     margin-bottom: 24px;
   }
   .agent-label {
     font-size: 0.7rem; font-weight: 700;
-    color: var(--cloud);
+    color: var(--coral);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     margin-bottom: 16px;
@@ -316,13 +264,13 @@
   .agent-card h3 {
     font-family: var(--font-display);
     font-size: 1.6rem; font-weight: 400;
-    color: var(--white);
+    color: var(--navy);
     margin-bottom: 16px;
     line-height: 1.2;
   }
   .agent-card p {
     font-size: 0.9rem;
-    color: var(--gray-400);
+    color: var(--gray-600);
     line-height: 1.7;
     margin-bottom: 24px;
   }
@@ -331,45 +279,43 @@
   }
   .agent-tag {
     font-size: 0.72rem; font-weight: 600;
-    color: var(--gray-300);
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--slate);
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.08);
     padding: 6px 14px;
     letter-spacing: 0.02em;
   }
 
   /* ========== HOW IT WORKS ========== */
-  .how-it-works { background: var(--black); }
+  .how-it-works { background: var(--cream); }
   .how-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
     margin-top: 64px;
-    position: relative;
   }
   .how-step {
     padding: 40px 36px;
-    border-left: 1px solid rgba(255,255,255,0.06);
-    position: relative;
+    border-left: 1px solid rgba(0,0,0,0.06);
   }
   .how-step:first-child { border-left: none; }
   .how-step-num {
     font-family: var(--font-display);
     font-size: 0.9rem;
     font-style: italic;
-    color: var(--cloud);
+    color: var(--coral);
     margin-bottom: 20px;
     display: flex; align-items: center; gap: 12px;
   }
   .how-step-num::after {
     content: '';
     flex: 1; height: 1px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.08);
   }
   .how-step h3 {
     font-family: var(--font-display);
     font-size: 1.25rem; font-weight: 400;
-    color: var(--white);
+    color: var(--navy);
     margin-bottom: 12px;
     line-height: 1.25;
   }
@@ -380,7 +326,7 @@
   }
 
   /* ========== SLACK ========== */
-  .slack-section { background: var(--off-black); }
+  .slack-section { background: var(--white); }
   .slack-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -389,8 +335,8 @@
     margin-top: 64px;
   }
   .slack-visual {
-    background: var(--dark);
-    border: 1px solid rgba(255,255,255,0.06);
+    background: var(--navy);
+    border: 1px solid rgba(0,0,0,0.06);
     padding: 32px;
     position: relative;
   }
@@ -400,7 +346,7 @@
   .slack-window-bar span {
     width: 10px; height: 10px;
     border-radius: 50%;
-    background: var(--charcoal);
+    background: rgba(255,255,255,0.15);
   }
   .slack-msg {
     display: flex; gap: 14px;
@@ -420,8 +366,8 @@
     font-size: 0.7rem; font-weight: 700;
     border-radius: 4px;
   }
-  .slack-avatar.user { background: var(--charcoal); color: var(--gray-300); }
-  .slack-avatar.bot { background: var(--cloud); color: var(--black); }
+  .slack-avatar.user { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
+  .slack-avatar.bot { background: var(--coral); color: var(--white); }
   .slack-msg-body { flex: 1; }
   .slack-msg-name {
     font-size: 0.78rem; font-weight: 700;
@@ -430,18 +376,18 @@
   }
   .slack-msg-name span {
     font-weight: 400;
-    color: var(--gray-500);
+    color: rgba(255,255,255,0.4);
     font-size: 0.7rem;
     margin-left: 8px;
   }
   .slack-msg-text {
     font-size: 0.85rem;
-    color: var(--gray-300);
+    color: rgba(255,255,255,0.7);
     line-height: 1.6;
   }
   .slack-msg-text code {
-    background: rgba(200,223,245,0.08);
-    color: var(--cloud);
+    background: rgba(255,255,255,0.08);
+    color: var(--coral);
     padding: 2px 6px;
     font-size: 0.8rem;
     font-family: 'SF Mono', monospace;
@@ -449,13 +395,13 @@
   .slack-content h3 {
     font-family: var(--font-display);
     font-size: 1.8rem; font-weight: 400;
-    color: var(--white);
+    color: var(--navy);
     margin-bottom: 20px;
     line-height: 1.2;
   }
   .slack-content p {
     font-size: 0.95rem;
-    color: var(--gray-400);
+    color: var(--gray-600);
     line-height: 1.75;
     margin-bottom: 32px;
   }
@@ -464,41 +410,45 @@
   }
   .slack-features li {
     font-size: 0.88rem;
-    color: var(--gray-300);
+    color: var(--slate);
     padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
     display: flex; align-items: center; gap: 14px;
   }
   .slack-features li::before {
     content: '→';
-    color: var(--cloud);
+    color: var(--coral);
     font-weight: 500;
   }
 
   /* ========== PRICING ========== */
-  .pricing { background: var(--black); }
+  .pricing { background: var(--cream); }
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: rgba(255,255,255,0.06);
-    margin-top: 64px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 860px;
+    margin: 64px auto 0;
   }
   .pricing-card {
-    background: var(--black);
+    background: var(--white);
     padding: 48px 40px;
     display: flex; flex-direction: column;
     position: relative;
-    transition: background 0.3s;
+    transition: all 0.3s;
+    border: 1px solid rgba(0,0,0,0.06);
   }
-  .pricing-card:hover { background: var(--off-black); }
+  .pricing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  }
   .pricing-card.featured {
-    background: var(--off-black);
+    border-color: var(--coral);
   }
   .pricing-card.featured::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0;
-    height: 2px; background: var(--cloud);
+    height: 3px; background: var(--coral);
   }
   .pricing-tier {
     font-size: 0.7rem; font-weight: 700;
@@ -507,21 +457,10 @@
     text-transform: uppercase;
     margin-bottom: 24px;
   }
-  .pricing-card.featured .pricing-tier { color: var(--cloud); }
-  .pricing-price {
-    font-family: var(--font-display);
-    font-size: 3rem; font-weight: 400;
-    color: var(--white);
-    margin-bottom: 4px;
-    line-height: 1;
-  }
-  .pricing-period {
-    font-size: 0.8rem; color: var(--gray-500);
-    margin-bottom: 32px;
-  }
+  .pricing-card.featured .pricing-tier { color: var(--coral); }
   .pricing-desc {
     font-size: 0.88rem;
-    color: var(--gray-400);
+    color: var(--gray-600);
     line-height: 1.65;
     margin-bottom: 32px;
     flex: 1;
@@ -532,13 +471,13 @@
     flex: 1;
   }
   .pricing-features li {
-    font-size: 0.85rem; color: var(--gray-300);
+    font-size: 0.85rem; color: var(--slate);
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
     display: flex; align-items: flex-start; gap: 12px;
   }
   .pricing-features li::before {
-    content: '✓'; color: var(--cloud);
+    content: '✓'; color: var(--coral);
     font-weight: 700; flex-shrink: 0;
     margin-top: 1px;
   }
@@ -554,25 +493,26 @@
   }
   .pricing-btn.outline {
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.12);
-    color: var(--white);
+    border: 1px solid rgba(0,0,0,0.12);
+    color: var(--navy);
   }
   .pricing-btn.outline:hover {
-    border-color: var(--cloud);
-    color: var(--cloud);
+    border-color: var(--coral);
+    color: var(--coral);
+    background: var(--coral-light);
   }
   .pricing-btn.filled {
-    background: var(--white);
-    color: var(--black);
-    border: 1px solid var(--white);
+    background: var(--navy);
+    color: var(--white);
+    border: 1px solid var(--navy);
   }
   .pricing-btn.filled:hover {
-    background: var(--cloud);
-    border-color: var(--cloud);
+    background: var(--coral);
+    border-color: var(--coral);
   }
 
   /* ========== FAQ ========== */
-  .faq { background: var(--off-black); }
+  .faq { background: var(--white); }
   .faq-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -580,29 +520,29 @@
     margin-top: 64px;
   }
   .faq-item {
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
     padding: 28px 0;
   }
   .faq-q {
     font-family: var(--font-display);
     font-size: 1.1rem; font-weight: 400;
-    color: var(--white);
+    color: var(--navy);
     cursor: pointer;
     display: flex; justify-content: space-between; align-items: center;
     gap: 16px;
     transition: color 0.2s;
   }
-  .faq-q:hover { color: var(--cloud); }
+  .faq-q:hover { color: var(--coral); }
   .faq-q .faq-toggle {
     font-family: var(--font-body);
     font-size: 1.2rem;
-    color: var(--gray-500);
+    color: var(--gray-400);
     flex-shrink: 0;
     transition: transform 0.3s, color 0.2s;
     width: 24px; text-align: center;
     user-select: none;
   }
-  .faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--cloud); }
+  .faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--coral); }
   .faq-a {
     max-height: 0; overflow: hidden;
     transition: max-height 0.4s ease, padding 0.3s ease;
@@ -613,14 +553,14 @@
   }
   .faq-a p {
     font-size: 0.88rem;
-    color: var(--gray-400);
+    color: var(--gray-600);
     line-height: 1.7;
   }
 
   /* ========== FINAL CTA ========== */
   .final-cta {
-    padding: 160px 40px;
-    background: var(--black);
+    padding: 140px 40px;
+    background: var(--navy);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -628,8 +568,7 @@
   .final-cta::before {
     content: '';
     position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse at 50% 80%, var(--cloud-glow) 0%, transparent 50%);
+    background: radial-gradient(ellipse at 50% 80%, rgba(212,121,90,0.12) 0%, transparent 50%);
     pointer-events: none;
   }
   .final-cta::after {
@@ -645,6 +584,7 @@
     max-width: 700px; margin: 0 auto;
     position: relative; z-index: 1;
   }
+  .final-cta .section-eyebrow { color: rgba(255,255,255,0.4); }
   .final-cta h2 {
     font-family: var(--font-display);
     font-size: clamp(2.5rem, 5vw, 3.8rem);
@@ -652,40 +592,50 @@
     color: var(--white);
     line-height: 1.1;
     letter-spacing: -0.02em;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
-  .final-cta h2 em { font-style: italic; color: var(--cloud); }
-  .final-cta p {
-    font-size: 1.05rem;
-    color: var(--gray-500);
-    margin-bottom: 48px;
-    line-height: 1.7;
+  .final-cta h2 em { font-style: italic; color: var(--coral); }
+  .final-cta .btn-primary {
+    background: var(--white);
+    color: var(--navy);
   }
-  .cta-note {
-    margin-top: 24px;
-    font-size: 0.78rem;
-    color: var(--gray-500);
-    letter-spacing: 0.02em;
+  .final-cta .btn-primary:hover {
+    background: var(--coral);
+    color: var(--white);
   }
 
   /* ========== FOOTER ========== */
   footer {
     padding: 60px 40px 40px;
-    background: var(--black);
+    background: var(--navy);
     border-top: 1px solid rgba(255,255,255,0.06);
   }
   .footer-inner {
     max-width: 1240px; margin: 0 auto;
     display: flex; justify-content: space-between; align-items: center;
   }
+  .footer-logo {
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid rgba(255,255,255,0.2);
+    padding: 6px 14px;
+    text-decoration: none;
+  }
+  .footer-logo-text {
+    font-family: var(--font-body);
+    font-weight: 800; font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
   .footer-links { display: flex; gap: 32px; }
   .footer-links a {
-    font-size: 0.8rem; color: var(--gray-500);
+    font-size: 0.8rem; color: rgba(255,255,255,0.35);
     text-decoration: none; transition: color 0.2s;
   }
-  .footer-links a:hover { color: var(--white); }
+  .footer-links a:hover { color: rgba(255,255,255,0.7); }
   .footer-copy {
-    font-size: 0.78rem; color: var(--gray-500);
+    font-size: 0.78rem; color: rgba(255,255,255,0.25);
   }
 
   /* ========== RESPONSIVE ========== */
@@ -693,7 +643,7 @@
     .agents-grid { grid-template-columns: 1fr; }
     .how-grid { grid-template-columns: repeat(2, 1fr); }
     .slack-grid { grid-template-columns: 1fr; gap: 48px; }
-    .pricing-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 440px; }
     .faq-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 768px) {
@@ -703,8 +653,7 @@
     .hamburger { display: block; }
     .nav-inner { padding: 0 24px; }
     .how-grid { grid-template-columns: 1fr; }
-    .how-step { border-left: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .hero-ticker { display: none; }
+    .how-step { border-left: none; border-bottom: 1px solid rgba(0,0,0,0.06); }
     .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
     .footer-links { flex-wrap: wrap; justify-content: center; }
     .agent-card { padding: 36px 28px; }
@@ -746,18 +695,15 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow reveal">The AI-native law firm for AI companies</div>
-    <h1 class="reveal reveal-delay-1">Legal agents built for<br>your startup <em>by lawyers.</em></h1>
-    <p class="hero-sub reveal reveal-delay-2">Termstack replaces your expensive law firm with lawyer-assisted agents for your corporate, contracts, and venture financing work.</p>
+    <div class="hero-eyebrow reveal">Legal agents for startup founders</div>
+    <h1 class="reveal reveal-delay-1">Automate your VC deal<br>from term sheet to close</h1>
+    <p class="hero-sub reveal reveal-delay-2">Termstack handles the legal complexity of VC fundraising so founders can focus on building.</p>
     <div class="hero-actions reveal reveal-delay-3">
       <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="btn-primary">
         Book a demo
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-
     </div>
-
-
   </div>
 </section>
 
@@ -766,45 +712,20 @@
 <!-- AGENTS -->
 <section class="agents section-pad" id="agents">
   <div class="section-inner">
-    <div class="section-eyebrow reveal">Legal Agents</div>
-    <h2 class="section-title reveal">Every legal need,<br>one platform.</h2>
-    <p class="section-sub reveal">Each agent is purpose-built for a category of startup legal work. Ask questions, draft documents, or get a full review — in minutes, not weeks.</p>
+    <div class="section-eyebrow reveal">VC Document Automation</div>
+    <h2 class="section-title reveal">Venture capital agreements,<br>drafted in minutes.</h2>
+    <p class="section-sub reveal">A lawyer-supervised AI agent that generates complete VC investment documents — term sheets, SAFEs, and Series A agreements — customized to your deal.</p>
 
-    <div class="agents-grid">
+    <div class="agents-grid" style="grid-template-columns: 1fr; max-width: 720px;">
       <div class="agent-card reveal">
-        <div class="agent-number">01</div>
-        <div class="agent-label">Corporate Agent</div>
-        <h3>Governance, IP &<br>compliance answers</h3>
-        <p>Get instant, cited answers on intellectual property protection, marketing compliance, board governance, and corporate structure. Like having a corporate attorney on call 24/7.</p>
+        <h3>Everything you need to close<br>your VC round in one place.</h3>
+        <p>Automatically create customized term sheets, stock purchase agreements, SAFEs, convertible notes, and side letters to match your exact deal terms. Built-in market benchmarking shows you where your deal stands against current VC standards so you know exactly where to push back.</p>
         <div class="agent-tags">
-          <span class="agent-tag">IP Protection</span>
-          <span class="agent-tag">Marketing Compliance</span>
-          <span class="agent-tag">Board Governance</span>
-          <span class="agent-tag">Corporate Structure</span>
-        </div>
-      </div>
-      <div class="agent-card reveal reveal-delay-1">
-        <div class="agent-number">02</div>
-        <div class="agent-label">Commercial Agent</div>
-        <h3>Draft and review<br>every contract</h3>
-        <p>Generate NDAs, MSAs, SOWs, and service agreements from proven templates. Upload counterparty redlines and get a clause-by-clause risk analysis with suggested edits.</p>
-        <div class="agent-tags">
-          <span class="agent-tag">Contract Drafting</span>
-          <span class="agent-tag">Redline Review</span>
-          <span class="agent-tag">Risk Analysis</span>
-          <span class="agent-tag">Template Library</span>
-        </div>
-      </div>
-      <div class="agent-card reveal reveal-delay-2">
-        <div class="agent-number">03</div>
-        <div class="agent-label">Transactions Agent</div>
-        <h3>NVCA docs for<br>your next raise</h3>
-        <p>Generate complete NVCA venture financing packages — term sheets, stock purchase agreements, investor rights agreements, and more. Benchmarked against current market terms.</p>
-        <div class="agent-tags">
-          <span class="agent-tag">NVCA Agreements</span>
-          <span class="agent-tag">SAFEs & Notes</span>
           <span class="agent-tag">Term Sheets</span>
-          <span class="agent-tag">Market Benchmarks</span>
+          <span class="agent-tag">SAFEs</span>
+          <span class="agent-tag">Stock Purchase Agreements</span>
+          <span class="agent-tag">Investor Rights Agreements</span>
+          <span class="agent-tag">Side Letters</span>
         </div>
       </div>
     </div>
@@ -817,8 +738,8 @@
 <section class="how-it-works section-pad" id="how">
   <div class="section-inner">
     <div class="section-eyebrow reveal">How it works</div>
-    <h2 class="section-title reveal">From question to<br>signed document.</h2>
-    <p class="section-sub reveal">No billable hours. No back-and-forth emails. No 2-week turnarounds.</p>
+    <h2 class="section-title reveal">From first question to<br>signed financing documents.</h2>
+    <p class="section-sub reveal">Tell us about your deal in Slack and we'll draft, review, and finalize your financing agreements end-to-end. You pay for a completed deal, not a software subscription.</p>
 
     <div class="how-grid">
       <div class="how-step reveal">
@@ -833,13 +754,13 @@
       </div>
       <div class="how-step reveal reveal-delay-2">
         <div class="how-step-num">iii.</div>
-        <h3>Review & refine</h3>
-        <p>Get drafts, answers, or risk analysis back in minutes. Iterate in-thread until it's exactly right.</p>
+        <h3>Lawyer reviews</h3>
+        <p>A lawyer supervises the agent's output, removing liability risk while AI handles the intelligence-heavy drafting.</p>
       </div>
       <div class="how-step reveal reveal-delay-3">
         <div class="how-step-num">iv.</div>
         <h3>Sign & close</h3>
-        <p>Export polished, attorney-reviewed documents ready for signature. Keep everything organized in your workspace.</p>
+        <p>Receive polished, lawyer-reviewed documents ready for signature. Keep everything organized in your workspace.</p>
       </div>
     </div>
   </div>
@@ -851,42 +772,63 @@
 <section class="slack-section section-pad" id="slack">
   <div class="section-inner">
     <div class="slack-grid">
-      <div class="slack-visual reveal">
-        <div class="slack-window-bar">
-          <span></span><span></span><span></span>
-        </div>
-        <div class="slack-msg">
-          <div class="slack-avatar user">AK</div>
-          <div class="slack-msg-body">
-            <div class="slack-msg-name">Alex Kim <span>10:42 AM</span></div>
-            <div class="slack-msg-text">@termstack-commercial Can you draft an NDA for a potential enterprise customer? Standard mutual, 2-year term.</div>
+      <div class="slack-visual reveal" style="background: #fff; padding: 0; overflow: hidden; border: 1px solid rgba(0,0,0,0.1);">
+        <!-- Slack sidebar + main area -->
+        <div style="display: flex; height: 100%;">
+          <!-- Sidebar -->
+          <div style="width: 220px; background: var(--navy); padding: 16px 12px; flex-shrink: 0;">
+            <div style="font-weight: 700; font-size: 0.85rem; color: #fff; margin-bottom: 16px; padding: 4px 8px;">Acme Inc ▾</div>
+            <div style="font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.4); letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 8px; margin-bottom: 6px;">Channels</div>
+            <div style="font-size: 0.8rem; color: rgba(255,255,255,0.5); padding: 4px 8px; margin-bottom: 2px;"># general</div>
+            <div style="font-size: 0.8rem; color: rgba(255,255,255,0.5); padding: 4px 8px; margin-bottom: 2px;"># engineering</div>
+            <div style="font-size: 0.8rem; color: #fff; padding: 4px 8px; margin-bottom: 2px; background: rgba(255,255,255,0.1); border-radius: 4px;"># termstack-legal</div>
+            <div style="font-size: 0.8rem; color: rgba(255,255,255,0.5); padding: 4px 8px; margin-bottom: 2px;"># fundraising</div>
           </div>
-        </div>
-        <div class="slack-msg">
-          <div class="slack-avatar bot">TS</div>
-          <div class="slack-msg-body">
-            <div class="slack-msg-name">Termstack <span>10:42 AM</span></div>
-            <div class="slack-msg-text">Drafting your mutual NDA now. I'll use the standard template with a 2-year confidentiality period and carve-outs for independently developed information. One moment...</div>
-          </div>
-        </div>
-        <div class="slack-msg">
-          <div class="slack-avatar bot">TS</div>
-          <div class="slack-msg-body">
-            <div class="slack-msg-name">Termstack <span>10:43 AM</span></div>
-            <div class="slack-msg-text">Done. Here's your NDA → <code>Mutual_NDA_Enterprise.docx</code><br>Key terms: Mutual obligations · 2-year term · Standard exceptions · Delaware law. Want me to adjust anything?</div>
+          <!-- Chat area -->
+          <div style="flex: 1; display: flex; flex-direction: column; background: #fff;">
+            <!-- Channel header -->
+            <div style="padding: 12px 20px; background: var(--navy); display: flex; align-items: center; gap: 8px;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: #fff;"># termstack-legal</span>
+            </div>
+            <!-- Messages -->
+            <div style="padding: 20px; flex: 1;">
+              <div class="slack-msg">
+                <div class="slack-avatar user" style="background: rgba(0,0,0,0.08); color: var(--slate);">AK</div>
+                <div class="slack-msg-body">
+                  <div class="slack-msg-name" style="color: var(--navy);">Alex Kim <span style="color: var(--gray-400);">10:42 AM</span></div>
+                  <div class="slack-msg-text" style="color: var(--slate);">@termstack We're closing our seed round. Can you draft the NVCA stock purchase agreement? $4M pre-money, 20% option pool.</div>
+                </div>
+              </div>
+              <div class="slack-msg">
+                <div class="slack-avatar bot">TS</div>
+                <div class="slack-msg-body">
+                  <div class="slack-msg-name" style="color: var(--navy);">Termstack <span style="background: rgba(212,121,90,0.15); color: var(--coral); padding: 1px 5px; border-radius: 3px; font-size: 0.6rem; font-weight: 600; margin-left: 6px;">APP</span> <span style="color: var(--gray-400);">10:42 AM</span></div>
+                  <div class="slack-msg-text" style="color: var(--slate);">On it. I'll draft the SPA based on standard NVCA terms with your cap table details. A lawyer will review before delivery. One moment...</div>
+                </div>
+              </div>
+              <div class="slack-msg">
+                <div class="slack-avatar bot">TS</div>
+                <div class="slack-msg-body">
+                  <div class="slack-msg-name" style="color: var(--navy);">Termstack <span style="background: rgba(212,121,90,0.15); color: var(--coral); padding: 1px 5px; border-radius: 3px; font-size: 0.6rem; font-weight: 600; margin-left: 6px;">APP</span> <span style="color: var(--gray-400);">10:48 AM</span></div>
+                  <div class="slack-msg-text" style="color: var(--slate);">Lawyer-reviewed and ready →<br><span style="display: inline-flex; align-items: center; gap: 6px; background: var(--cream); padding: 8px 12px; margin-top: 8px; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span style="color: var(--navy); font-size: 0.8rem; font-weight: 500;">SPA_SeedRound_v1.docx</span></span><br><span style="font-size: 0.78rem; color: var(--gray-400); margin-top: 6px; display: block;">Includes: SPA · Investor Rights · ROFR · Voting Agreement</span></div>
+                </div>
+              </div>
+            </div>
+            <!-- Input bar -->
+            <div style="padding: 12px 20px; border-top: 1px solid rgba(0,0,0,0.06);">
+              <div style="background: var(--cream); border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; padding: 10px 14px; font-size: 0.8rem; color: var(--gray-400);">Message #termstack-legal</div>
+            </div>
           </div>
         </div>
       </div>
       <div class="slack-content reveal">
-        <div class="section-eyebrow">AI-Native Legal</div>
-        <h3>Legal help where your team already works.</h3>
-        <p>No new tools to learn. No portals to log into. Just tag an agent in Slack and get answers, drafts, and reviews right in your workflow.</p>
+        <div class="section-eyebrow">Direct to client</div>
+        <h3>We work with you directly — not your outside counsel.</h3>
+        <p>Termstack sells to the company that needs investment agreements drafted, not to the law firm. The founder purchases the outcome, not the software.</p>
         <ul class="slack-features">
-          <li>Lawyer in the loop</li>
-          <li>Ask legal questions in natural language</li>
-          <li>Generate documents directly in channels</li>
-
-
+          <li>Lawyer-supervised agent on every output</li>
+          <li>Compounding data advantage on every draft</li>
+          <li>Generate documents directly in Slack</li>
           <li>Full audit trail of every interaction</li>
           <li>Legal brain for your startup</li>
         </ul>
@@ -901,29 +843,31 @@
 <section class="pricing section-pad" id="pricing">
   <div class="section-inner">
     <div class="section-eyebrow reveal">Pricing</div>
-    <h2 class="section-title reveal">Legal that scales<br>with your stage.</h2>
-    <p class="section-sub reveal">No billable hours. No surprise invoices. Just the coverage you need.</p>
+    <h2 class="section-title reveal">A fraction of what you'd pay<br>a startup lawyer.</h2>
+    <p class="section-sub reveal">No billable hours. No surprise invoices. Flat-rate pricing for your entire VC financing round.</p>
 
-    <div class="pricing-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 860px; margin-left: auto; margin-right: auto; margin-top: 64px;">
-      <div class="pricing-card reveal">
-        <div class="pricing-tier">Startup</div>
-        <div class="pricing-desc">For early-stage teams that need corporate governance, contract drafting, and foundational legal support.</div>
+    <div class="pricing-grid">
+      <div class="pricing-card featured reveal">
+        <div class="pricing-tier">Venture Capital Agent</div>
+        <div class="pricing-desc">For startups raising venture capital from funds. Lawyer-supervised financing documents from term sheet to closing.</div>
         <ul class="pricing-features">
-          <li>Corporate Agent — governance, IP & compliance</li>
-          <li>Commercial Agent — contracts & review</li>
-          <li>Dedicated support</li>
-        </ul>
-        <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="pricing-btn outline">Book a demo</a>
-      </div>
-      <div class="pricing-card featured reveal reveal-delay-1">
-        <div class="pricing-tier">Growth</div>
-        <div class="pricing-desc">For companies raising capital and scaling operations. Full access to all three agents and venture financing tools.</div>
-        <ul class="pricing-features">
-          <li>Everything in Startup</li>
-          <li>Transactions Agent — NVCA packages</li>
+          <li>Transactions Agent for financing documents</li>
+          <li>Lawyer-supervised on every output</li>
+          <li>SAFEs, term sheets & stock purchase agreements</li>
           <li>Dedicated support</li>
         </ul>
         <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="pricing-btn filled">Book a demo</a>
+      </div>
+      <div class="pricing-card reveal reveal-delay-1">
+        <div class="pricing-tier">Add-on: Corporate Agent</div>
+        <div class="pricing-desc">Expand your coverage with on-demand answers to corporate governance, IP, and compliance questions — available as an add-on to the Venture Capital Agent.</div>
+        <ul class="pricing-features">
+          <li>Governance, IP & compliance Q&A</li>
+          <li>Corporate structure guidance</li>
+          <li>Marketing compliance review</li>
+          <li>Dedicated support</li>
+        </ul>
+        <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="pricing-btn outline">Book a demo</a>
       </div>
     </div>
   </div>
@@ -935,7 +879,6 @@
 <section class="faq section-pad" id="faq">
   <div class="section-inner">
     <div class="section-eyebrow reveal">FAQ</div>
-    <h2 class="section-title reveal">Common questions.</h2>
 
     <div class="faq-grid">
       <div class="faq-item reveal">
@@ -944,7 +887,7 @@
           <span class="faq-toggle">+</span>
         </div>
         <div class="faq-a">
-          <p>Termstack provides legal information and document drafting powered by AI. For jurisdiction-specific legal advice, our Scale plan includes attorney review. We always recommend having critical documents reviewed by licensed counsel.</p>
+          <p>Every output is supervised by a licensed attorney, removing liability risk while the AI handles the intelligence-heavy drafting. For complex matters, we escalate to full attorney review.</p>
         </div>
       </div>
       <div class="faq-item reveal">
@@ -953,16 +896,16 @@
           <span class="faq-toggle">+</span>
         </div>
         <div class="faq-a">
-          <p>NVCA (National Venture Capital Association) documents are the industry-standard templates for venture financing. They include term sheets, stock purchase agreements, investor rights agreements, and more. Our Transactions Agent generates these customized to your deal terms.</p>
+          <p>NVCA agreements are a standardized set of legal documents published by the National Venture Capital Association that are used in U.S. venture capital financings — especially priced equity rounds like Series Seed, Series A, etc.</p>
         </div>
       </div>
       <div class="faq-item reveal">
         <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-          How does Slack integration work?
+          How is this different from other legal AI?
           <span class="faq-toggle">+</span>
         </div>
         <div class="faq-a">
-          <p>Install the Termstack app in your Slack workspace. Each agent gets its own bot you can tag in any channel or DM. Ask questions, request documents, or upload contracts for review — all within your normal workflow.</p>
+          <p>Most legal AI builds productivity tools for lawyers. We replace outsourced legal spend, so you never have to see another outrageous legal bill again.</p>
         </div>
       </div>
       <div class="faq-item reveal">
@@ -974,39 +917,51 @@
           <p>Yes. All data is encrypted in transit and at rest. We never train on your data.</p>
         </div>
       </div>
-
       <div class="faq-item reveal">
         <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
           What stage startups do you support?
           <span class="faq-toggle">+</span>
         </div>
         <div class="faq-a">
-          <p>Termstack is built for pre-seed through Series B companies. Our agents cover everything from incorporation and your first SAFE to full NVCA financing packages for priced rounds.</p>
+          <p>Termstack is built for startups raising venture capital from institutional investors. Well-defined scope, outsourced by default, immediate ROI. We cover pre-seed through Series B.</p>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          How fast can I close a deal using Termstack?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">
+          <p>Most deals close in 1–2 weeks if your investor is still using traditional law firms. If both you and your investor are on Termstack, deals can close in as little as 2–5 business days.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          What if I have questions after my deal closes?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">
+          <p>One of our lawyers can work with you to set up a legal agent that becomes the legal brain of your company — ingesting documents and preparing answers for you that get smarter the more questions you ask.</p>
+        </div>
+      </div>
 
-<!-- FINAL CTA -->
-<section class="final-cta" id="book">
+    </div>
+<section class="final-cta">
   <div class="cta-inner">
     <div class="section-eyebrow reveal" style="text-align:center;">Stop overpaying for legal</div>
-    <h2 class="reveal">Fire your law firm.<br>Hire <em>Termstack.</em></h2>
-
-    <a href="#" class="btn-primary reveal">
+    <h2 class="reveal">Buy the outcome.<br>Not the <em>billable hour.</em></h2>
+    <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="btn-primary reveal">
       Book a demo
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <a href="#" class="logo" style="border-color: var(--gray-500);">
-      <span class="logo-text" style="color: var(--gray-500);">Termstack</span>
+    <a href="#" class="footer-logo">
+      <span class="footer-logo-text">Termstack</span>
     </a>
     <div class="footer-links">
       <a href="#">Privacy</a>
@@ -1019,12 +974,6 @@
 </footer>
 
 <script>
-// Nav scroll
-window.addEventListener('scroll', () => {
-  document.querySelector('nav').style.borderBottomColor =
-    window.scrollY > 20 ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.06)';
-});
-
 // Scroll reveal
 const reveals = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
