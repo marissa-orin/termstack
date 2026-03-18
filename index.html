@@ -55,7 +55,7 @@
     border-bottom: 1px solid rgba(0,0,0,0.06);
   }
   .nav-inner {
-    max-width: 1240px; margin: 0 auto;
+    max-width: 960px; margin: 0 auto;
     padding: 0 40px; height: 72px;
     display: flex; align-items: center; justify-content: space-between;
   }
@@ -130,15 +130,16 @@
     pointer-events: none;
   }
   .hero-inner {
-    max-width: 1240px; margin: 0 auto; width: 100%;
+    max-width: 960px; margin: 0 auto; width: 100%;
     position: relative; z-index: 1;
+    text-align: center;
   }
   .hero-eyebrow {
     font-size: 0.78rem; font-weight: 600;
     letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--coral);
     margin-bottom: 28px;
-    display: flex; align-items: center; gap: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
   }
   .hero-eyebrow::before {
     content: '';
@@ -152,8 +153,10 @@
     line-height: 1.05;
     letter-spacing: -0.02em;
     color: var(--navy);
-    max-width: 900px;
+    max-width: 800px;
     margin-bottom: 32px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .hero h1 em {
     font-style: italic;
@@ -162,12 +165,14 @@
   .hero-sub {
     font-size: 1.15rem;
     color: var(--gray-600);
-    max-width: 560px;
+    max-width: 580px;
     line-height: 1.75;
     margin-bottom: 48px;
     font-weight: 400;
+    margin-left: auto;
+    margin-right: auto;
   }
-  .hero-actions { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+  .hero-actions { display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap; }
 
   .btn-primary {
     display: inline-flex; align-items: center; gap: 10px;
@@ -189,12 +194,13 @@
 
   /* ========== SECTION UTILITIES ========== */
   .section-pad { padding: 120px 40px; }
-  .section-inner { max-width: 1240px; margin: 0 auto; }
+  .section-inner { max-width: 960px; margin: 0 auto; }
   .section-eyebrow {
     font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--coral);
     margin-bottom: 16px;
+    text-align: center;
   }
   .section-title {
     font-family: var(--font-display);
@@ -204,17 +210,21 @@
     letter-spacing: -0.02em;
     color: var(--navy);
     margin-bottom: 20px;
+    text-align: center;
   }
   .section-sub {
     font-size: 1.05rem;
     color: var(--gray-600);
-    max-width: 540px;
+    max-width: 600px;
     line-height: 1.7;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
   .divider {
     height: 1px;
     background: rgba(0,0,0,0.06);
-    max-width: 1240px; margin: 0 auto;
+    max-width: 960px; margin: 0 auto;
   }
 
   /* ========== AGENTS ========== */
@@ -292,7 +302,8 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    margin-top: 64px;
+    margin-top: 48px;
+    max-width: 960px;
   }
   .how-step {
     padding: 40px 36px;
@@ -329,10 +340,10 @@
   .slack-section { background: var(--white); }
   .slack-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
     align-items: center;
-    margin-top: 64px;
+    margin-top: 48px;
   }
   .slack-visual {
     background: var(--navy);
@@ -427,8 +438,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
-    max-width: 860px;
-    margin: 64px auto 0;
+    max-width: 800px;
+    margin: 48px auto 0;
   }
   .pricing-card {
     background: var(--white);
@@ -611,7 +622,7 @@
     border-top: 1px solid rgba(255,255,255,0.06);
   }
   .footer-inner {
-    max-width: 1240px; margin: 0 auto;
+    max-width: 960px; margin: 0 auto;
     display: flex; justify-content: space-between; align-items: center;
   }
   .footer-logo {
@@ -716,7 +727,7 @@
     <h2 class="section-title reveal">Venture capital agreements,<br>drafted in minutes.</h2>
     <p class="section-sub reveal">A lawyer-supervised AI agent that generates complete VC investment documents — term sheets, SAFEs, and Series A agreements — customized to your deal.</p>
 
-    <div class="agents-grid" style="grid-template-columns: 1fr; max-width: 720px;">
+    <div class="agents-grid" style="grid-template-columns: 1fr; max-width: 680px; margin-left: auto; margin-right: auto; margin-top: 48px;">
       <div class="agent-card reveal">
         <h3>Everything you need to close<br>your VC round in one place.</h3>
         <p>Automatically create customized term sheets, stock purchase agreements, SAFEs, convertible notes, and side letters to match your exact deal terms. Built-in market benchmarking shows you where your deal stands against current VC standards so you know exactly where to push back.</p>
@@ -821,9 +832,9 @@
           </div>
         </div>
       </div>
-      <div class="slack-content reveal">
-        <div class="section-eyebrow">Direct to client</div>
-        <h3>We work with you directly — not your outside counsel.</h3>
+      <div class="slack-content reveal" style="text-align: left;">
+        <div class="section-eyebrow" style="text-align: left;">Direct to client</div>
+        <h3 style="text-align: left;">We work with you directly — not your outside counsel.</h3>
         <p>Termstack sells to the company that needs investment agreements drafted, not to the law firm. The founder purchases the outcome, not the software.</p>
         <ul class="slack-features">
           <li>Lawyer-supervised agent on every output</li>
