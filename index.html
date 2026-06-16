@@ -1,1036 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Termstack — Legal Agents for Founders & VC Funds</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Termstack: AI implementation for law firms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    --cream: #F5EDE3;
-    --cream-dark: #EDE3D5;
-    --cream-deep: #E0D4C4;
-    --white: #FFFFFF;
-    --navy: #1A2744;
-    --navy-light: #2A3B5C;
-    --ink: #1C1C1C;
-    --charcoal: #2A2A2A;
-    --slate: #4A4A4A;
-    --gray-600: #5C5C5C;
-    --gray-500: #6B6B6B;
-    --gray-400: #8A8A8A;
-    --gray-300: #ABABAB;
-    --coral: #D4795A;
-    --coral-light: rgba(212, 121, 90, 0.1);
-    --coral-hover: #C06A4C;
-    --navy-muted: rgba(26, 39, 68, 0.06);
+  :root{
+    --paper:#F7F7F4;
+    --surface:#FFFFFF;
+    --ink:#16181C;
+    --muted:#5E636B;
+    --line:#E6E5DF;
+    --dark:#121317;
+    --dark-2:#1B1D23;
+    --dark-line:rgba(255,255,255,.12);
+    --accent:#2B4ED6;
+    --accent-ink:#1E3CAE;
+    --accent-soft:#EAEEFC;
+    --muted-d:#9AA0A9;
 
-    --font-display: 'Instrument Serif', Georgia, serif;
-    --font-body: 'Libre Franklin', -apple-system, sans-serif;
-  }
+    --display:"Schibsted Grotesk",system-ui,sans-serif;
+    --body:"Inter",system-ui,-apple-system,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: var(--font-body);
-    color: var(--ink);
-    background: var(--cream);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    --gutter:clamp(20px,5vw,80px);
+    --maxw:1240px;
   }
 
-  ::selection {
-    background: var(--navy);
-    color: var(--white);
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.58;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent);color:#fff;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter);}
+
+  /* primitives ------------------------------------------------------- */
+  .eyebrow{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:9px;}
+  .eyebrow::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--accent);display:inline-block;}
+  .on-dark .eyebrow{color:#8FA6FF;}
+  .on-dark .eyebrow::before{background:#8FA6FF;}
+
+  h1,h2,h3,h4{font-family:var(--display);font-weight:600;margin:0;letter-spacing:-0.02em;}
+  .display{font-size:clamp(2.45rem,5.4vw,4.3rem);line-height:1.04;font-weight:700;letter-spacing:-0.035em;}
+  .h2{font-size:clamp(1.95rem,3.8vw,3rem);line-height:1.08;letter-spacing:-0.03em;}
+  .lead{font-size:clamp(1.08rem,1.5vw,1.26rem);line-height:1.5;color:var(--muted);}
+  .on-dark .lead{color:var(--muted-d);}
+
+  .btn{font-family:var(--body);font-weight:500;font-size:15px;display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:9px;border:1px solid transparent;transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease;}
+  .btn .ar{transition:transform .25s ease;}
+  .btn:hover .ar{transform:translateX(4px);}
+  .btn-accent{background:var(--accent);color:#fff;}
+  .btn-accent:hover{background:var(--accent-ink);transform:translateY(-1px);}
+  .btn-ghost{border-color:var(--line);color:var(--ink);background:var(--surface);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .on-dark .btn-ghost{background:transparent;border-color:var(--dark-line);color:#fff;}
+  .on-dark .btn-ghost:hover{border-color:rgba(255,255,255,.5);}
+
+  /* header ----------------------------------------------------------- */
+  header{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--paper) 85%,transparent);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid transparent;transition:border-color .3s ease;}
+  header.scrolled{border-color:var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:66px;}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:700;font-size:1.28rem;letter-spacing:-0.03em;color:var(--ink);}
+  .brand .glyph{display:flex;flex-direction:column;gap:2.5px;}
+  .brand .glyph i{height:3px;border-radius:2px;background:var(--accent);display:block;}
+  .brand .glyph i:nth-child(1){width:18px;}
+  .brand .glyph i:nth-child(2){width:13px;opacity:.7;}
+  .brand .glyph i:nth-child(3){width:8px;opacity:.45;}
+  .nav-links{display:flex;align-items:center;gap:30px;}
+  .nav-links a:not(.btn){font-size:14.5px;color:var(--muted);transition:color .2s ease;}
+  .nav-links a:not(.btn):hover{color:var(--ink);}
+
+  /* hero ------------------------------------------------------------- */
+  .hero{padding:clamp(56px,9vw,108px) 0 clamp(40px,6vw,64px);}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,5vw,72px);align-items:center;}
+  .hero h1{margin-top:24px;max-width:15ch;}
+  .hero .lead{margin-top:26px;max-width:46ch;}
+  .hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+
+  /* stack visual (signature) ----------------------------------------- */
+  .stack{display:flex;flex-direction:column;gap:10px;}
+  .layer{
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;
+    box-shadow:0 1px 0 rgba(22,24,28,.03),0 14px 30px -26px rgba(22,24,28,.5);
+    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+  }
+  .layer:hover{transform:translateX(5px);border-color:#cfd0c9;}
+  .layer .li{display:flex;align-items:center;gap:13px;}
+  .layer .ix{font-family:var(--mono);font-size:11px;color:var(--muted);min-width:22px;}
+  .layer .nm{font-family:var(--display);font-weight:600;font-size:1.02rem;letter-spacing:-0.01em;}
+  .layer .desc{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.02em;text-align:right;}
+  .layer.accent{border-color:var(--accent);background:linear-gradient(0deg,var(--accent-soft),var(--surface));}
+  .layer.accent .nm{color:var(--accent-ink);}
+  .layer.accent .desc{color:var(--accent-ink);}
+  .stack .base{
+    margin-top:4px;border:1px dashed var(--line);border-radius:12px;padding:13px 18px;
+    font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:var(--muted);text-transform:uppercase;text-align:center;background:rgba(22,24,28,.015);
   }
 
-  /* ========== NAV ========== */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(245, 237, 227, 0.92);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-  }
-  .nav-inner {
-    max-width: 1100px; margin: 0 auto;
-    padding: 0 40px; height: 72px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .logo {
-    display: inline-flex; align-items: center; justify-content: center;
-    border: 2px solid var(--navy);
-    padding: 6px 14px;
-    text-decoration: none;
-    transition: all 0.3s;
-  }
-  .logo:hover {
-    border-color: var(--coral);
-    background: var(--coral-light);
-  }
-  .logo-text {
-    font-family: var(--font-body);
-    font-weight: 800; font-size: 0.8rem;
-    color: var(--navy);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-  .logo:hover .logo-text { color: var(--coral); }
+  .hero-meta{display:flex;gap:clamp(20px,4vw,44px);flex-wrap:wrap;margin-top:clamp(40px,6vw,68px);padding-top:26px;border-top:1px solid var(--line);}
+  .hero-meta .m{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:0.02em;display:flex;align-items:center;gap:9px;}
+  .hero-meta .m b{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block;}
 
-  .nav-links { display: flex; align-items: center; gap: 40px; }
-  .nav-links a {
-    font-size: 0.95rem; font-weight: 500;
-    color: var(--gray-500); text-decoration: none;
-    letter-spacing: 0.03em;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--navy); }
-  .nav-cta {
-    background: var(--navy) !important; color: var(--white) !important;
-    padding: 10px 24px;
-    font-weight: 700 !important; font-size: 0.9rem !important;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: all 0.3s !important;
-  }
-  .nav-cta:hover {
-    background: var(--coral) !important;
-    color: var(--white) !important;
-  }
-  .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
-  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--navy); margin: 5px 0; transition: 0.3s; }
+  /* section base ----------------------------------------------------- */
+  .sec{padding:clamp(72px,10vw,128px) 0;}
+  .sec-head{max-width:60ch;}
+  .sec-head .h2{margin-top:20px;}
+  .sec-head .lead{margin-top:22px;max-width:54ch;}
 
-  /* ========== HERO ========== */
-  .hero {
-    min-height: 100vh;
-    display: flex; align-items: center;
-    padding: 120px 40px 100px;
-    position: relative;
-    overflow: hidden;
-    background: var(--cream);
-  }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
-    background-size: 80px 80px;
-    pointer-events: none;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: -20%; right: -10%;
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(212,121,90,0.08) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .hero-inner {
-    max-width: 1100px; margin: 0 auto; width: 100%;
-    padding: 0 40px;
-    position: relative; z-index: 1;
-    text-align: center;
-  }
-  .hero-eyebrow {
-    font-size: 0.78rem; font-weight: 600;
-    letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--coral);
-    margin-bottom: 28px;
-    display: flex; align-items: center; justify-content: center; gap: 12px;
-  }
-  .hero-eyebrow::before {
-    content: '';
-    width: 32px; height: 1px;
-    background: var(--coral);
-  }
-  .hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(3.2rem, 7vw, 5.5rem);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--navy);
-    max-width: 800px;
-    margin-bottom: 32px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero h1 em {
-    font-style: italic;
-    color: var(--coral);
-  }
-  .hero-sub {
-    font-size: 1.15rem;
-    color: var(--gray-600);
-    max-width: 580px;
-    line-height: 1.75;
-    margin-bottom: 48px;
-    font-weight: 400;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero-actions { display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap; }
+  /* what we build (cards) -------------------------------------------- */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:54px;}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 26px;transition:transform .25s ease,border-color .25s ease;}
+  .card:hover{transform:translateY(-3px);border-color:#d4d5cd;}
+  .card .ci{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:0.06em;}
+  .card h3{font-size:1.4rem;margin:18px 0 10px;letter-spacing:-0.02em;}
+  .card p{margin:0;color:var(--muted);font-size:15px;line-height:1.5;}
 
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: var(--navy); color: var(--white);
-    padding: 18px 36px;
-    font-weight: 700; font-size: 0.95rem;
-    text-decoration: none; border: none; cursor: pointer;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    transition: all 0.3s ease;
-    font-family: var(--font-body);
-  }
-  .btn-primary:hover {
-    background: var(--coral);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(212,121,90,0.2);
-  }
-  .btn-primary svg { transition: transform 0.2s; }
-  .btn-primary:hover svg { transform: translateX(4px); }
+  /* the stack (dark) ------------------------------------------------- */
+  .deep{background:var(--dark);color:#fff;}
+  .deep-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(40px,6vw,84px);align-items:center;}
+  .deep .h2{color:#fff;}
+  .deep .lead{margin-top:22px;max-width:44ch;}
+  .layers-dark{display:flex;flex-direction:column;gap:10px;}
+  .dl{background:var(--dark-2);border:1px solid var(--dark-line);border-radius:12px;padding:18px 20px;transition:transform .25s ease,border-color .25s ease;}
+  .dl:hover{transform:translateX(5px);border-color:rgba(143,166,255,.5);}
+  .dl .top{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .dl .pn{font-family:var(--mono);font-size:11px;color:#8FA6FF;letter-spacing:0.08em;}
+  .dl h4{font-family:var(--display);font-weight:600;font-size:1.18rem;letter-spacing:-0.01em;margin:0;}
+  .dl p{margin:9px 0 0;color:var(--muted-d);font-size:14px;line-height:1.5;}
 
-  /* ========== SECTION UTILITIES ========== */
-  .section-pad { padding: 120px 0; }
-  .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
-  .section-eyebrow {
-    font-size: 0.85rem; font-weight: 700;
-    letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--coral);
-    margin-bottom: 16px;
-    text-align: center;
+  /* where ai fits ---------------------------------------------------- */
+  .fits{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:54px;}
+  .fitc{border:1px solid var(--line);border-radius:14px;padding:24px 22px;background:var(--surface);min-height:150px;}
+  .fitc .fn{font-family:var(--mono);font-size:12px;color:var(--accent);}
+  .fitc h4{font-family:var(--display);font-weight:600;font-size:1.12rem;letter-spacing:-0.01em;margin:14px 0 8px;}
+  .fitc p{margin:0;color:var(--muted);font-size:14px;line-height:1.45;}
+
+  /* team ------------------------------------------------------------- */
+  .team .h2{max-width:18ch;}
+  .team-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,46px);margin-top:54px;}
+  .tcol{border-top:2px solid var(--accent);padding-top:22px;}
+  .tcol .tn{font-family:var(--mono);font-size:12px;color:var(--accent);}
+  .tcol h4{font-size:1.24rem;letter-spacing:-0.01em;margin:14px 0 10px;}
+  .tcol p{margin:0;color:var(--muted);font-size:15px;}
+
+  /* cta -------------------------------------------------------------- */
+  .cta{background:var(--dark);color:#fff;text-align:center;padding:clamp(84px,12vw,150px) 0;position:relative;overflow:hidden;}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 80% at 50% 120%,rgba(43,78,214,.30),transparent 70%);}
+  .cta .wrap{position:relative;}
+  .cta h2{font-size:clamp(2.2rem,5vw,3.6rem);letter-spacing:-0.03em;max-width:18ch;margin:0 auto;}
+  .cta p{color:var(--muted-d);margin:22px auto 0;max-width:46ch;}
+  .cta-actions{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:38px;}
+  .cta .mail{font-family:var(--mono);font-size:13.5px;color:var(--muted-d);border-bottom:1px solid var(--dark-line);padding-bottom:3px;}
+  .cta .mail:hover{color:#fff;border-color:#fff;}
+
+  /* footer ----------------------------------------------------------- */
+  footer{background:var(--dark);color:var(--muted-d);border-top:1px solid var(--dark-line);}
+  .foot-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:28px;padding:60px 0 46px;}
+  footer .brand{color:#fff;margin-bottom:16px;}
+  footer .brand .glyph i{background:#8FA6FF;}
+  .foot-blurb{font-size:14px;line-height:1.62;max-width:34ch;color:var(--muted-d);}
+  .fcol h5{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,.45);margin:4px 0 16px;font-weight:500;}
+  .fcol a{display:block;font-size:14px;color:var(--muted-d);margin-bottom:10px;transition:color .2s ease;}
+  .fcol a:hover{color:#fff;}
+  .foot-bottom{border-top:1px solid var(--dark-line);padding:20px 0;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;letter-spacing:0.03em;color:rgba(255,255,255,.4);}
+
+  /* reveal ----------------------------------------------------------- */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1;transform:none;}
+  .reveal.d1{transition-delay:.07s;}.reveal.d2{transition-delay:.14s;}.reveal.d3{transition-delay:.21s;}.reveal.d4{transition-delay:.28s;}
+
+  /* hero stack load-in */
+  .layer,.stack .base{opacity:0;transform:translateY(12px);animation:rise .6s cubic-bezier(.2,.7,.2,1) forwards;}
+  .stack .layer:nth-child(1){animation-delay:.15s;}
+  .stack .layer:nth-child(2){animation-delay:.25s;}
+  .stack .layer:nth-child(3){animation-delay:.35s;}
+  .stack .layer:nth-child(4){animation-delay:.45s;}
+  .stack .layer:nth-child(5){animation-delay:.55s;}
+  .stack .base{animation-delay:.65s;}
+  @keyframes rise{to{opacity:1;transform:none;}}
+
+  /* responsive ------------------------------------------------------- */
+  @media (max-width:960px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero .stack-wrap{margin-top:8px;}
+    .deep-grid{grid-template-columns:1fr;}
+    .cards{grid-template-columns:1fr;}
+    .fits{grid-template-columns:1fr 1fr;}
+    .team-cols{grid-template-columns:1fr;gap:0;}
+    .tcol{border-top:1px solid var(--line);padding:24px 0;}
+    .tcol:first-child{border-top:2px solid var(--accent);}
+    .foot-top{grid-template-columns:1fr 1fr;}
   }
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(2.2rem, 4vw, 3.2rem);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--navy);
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  .section-sub {
-    font-size: 1.15rem;
-    color: var(--gray-600);
-    max-width: 600px;
-    line-height: 1.7;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .divider {
-    height: 1px;
-    background: rgba(0,0,0,0.06);
-    max-width: 1100px; margin: 0 auto;
+  @media (max-width:600px){
+    .nav-links a:not(.btn){display:none;}
+    .fits{grid-template-columns:1fr;}
+    .layer .desc{display:none;}
+    .foot-top{grid-template-columns:1fr;}
+    body{font-size:16px;}
   }
 
-  /* ========== WHO WE SERVE ========== */
-  .agents { background: var(--white); }
-  .agents-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    margin-top: 64px;
-  }
-  .agent-card {
-    background: var(--cream);
-    padding: 44px 36px;
-    position: relative;
-    transition: all 0.4s ease;
-    border: 1px solid rgba(0,0,0,0.04);
-  }
-  .agent-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-  }
-  .agent-card::after {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--coral);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.5s ease;
-  }
-  .agent-card:hover::after { transform: scaleX(1); }
-  .agent-number {
-    font-family: var(--font-display);
-    font-size: 3.5rem;
-    color: rgba(26,39,68,0.05);
-    font-style: italic;
-    line-height: 1;
-    margin-bottom: 24px;
-  }
-  .agent-label {
-    font-size: 0.7rem; font-weight: 700;
-    color: var(--coral);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  .agent-card h3 {
-    font-family: var(--font-display);
-    font-size: 1.6rem; font-weight: 400;
-    color: var(--navy);
-    margin-bottom: 16px;
-    line-height: 1.2;
-  }
-  .agent-card p {
-    font-size: 1.05rem;
-    color: var(--gray-600);
-    line-height: 1.7;
-    margin-bottom: 24px;
-  }
-  .agent-tags {
-    display: flex; flex-wrap: wrap; gap: 8px;
-  }
-  .agent-tag {
-    font-size: 0.85rem; font-weight: 600;
-    color: var(--slate);
-    background: var(--white);
-    border: 1px solid rgba(0,0,0,0.08);
-    padding: 6px 14px;
-    letter-spacing: 0.02em;
-  }
+  a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px;}
+  .on-dark a:focus-visible,.cta a:focus-visible{outline-color:#8FA6FF;}
 
-  /* ========== HOW IT WORKS ========== */
-  .how-it-works { background: var(--cream); }
-  .how-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    margin-top: 48px;
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+    .reveal{opacity:1;transform:none;}
+    .layer,.stack .base{opacity:1;transform:none;}
   }
-  .how-step {
-    padding: 40px 36px;
-    border-left: 1px solid rgba(0,0,0,0.06);
-  }
-  .how-step:first-child { border-left: none; }
-  .how-step-num {
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-style: italic;
-    color: var(--coral);
-    margin-bottom: 20px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .how-step-num::after {
-    content: '';
-    flex: 1; height: 1px;
-    background: rgba(0,0,0,0.08);
-  }
-  .how-step h3 {
-    font-family: var(--font-display);
-    font-size: 1.4rem; font-weight: 400;
-    color: var(--navy);
-    margin-bottom: 12px;
-    line-height: 1.25;
-  }
-  .how-step p {
-    font-size: 1rem;
-    color: var(--gray-500);
-    line-height: 1.7;
-  }
-
-  /* ========== SLACK ========== */
-  .slack-section { background: var(--white); }
-  .slack-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 60px;
-    align-items: center;
-    margin-top: 48px;
-  }
-  .slack-visual {
-    background: var(--navy);
-    border: 1px solid rgba(0,0,0,0.06);
-    padding: 32px;
-    position: relative;
-  }
-  .slack-window-bar {
-    display: flex; gap: 6px; margin-bottom: 24px;
-  }
-  .slack-window-bar span {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-  }
-  .slack-msg {
-    display: flex; gap: 14px;
-    margin-bottom: 20px;
-    animation: msgFade 0.5s ease-out backwards;
-  }
-  .slack-msg:nth-child(2) { animation-delay: 0.3s; }
-  .slack-msg:nth-child(3) { animation-delay: 0.6s; }
-  .slack-msg:nth-child(4) { animation-delay: 0.9s; }
-  @keyframes msgFade {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .slack-avatar {
-    width: 32px; height: 32px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem; font-weight: 700;
-    border-radius: 4px;
-  }
-  .slack-avatar.user { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
-  .slack-avatar.bot { background: var(--coral); color: var(--white); }
-  .slack-msg-body { flex: 1; }
-  .slack-msg-name {
-    font-size: 0.78rem; font-weight: 700;
-    color: var(--white);
-    margin-bottom: 4px;
-  }
-  .slack-msg-name span {
-    font-weight: 400;
-    color: rgba(255,255,255,0.4);
-    font-size: 0.7rem;
-    margin-left: 8px;
-  }
-  .slack-msg-text {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.7);
-    line-height: 1.6;
-  }
-  .slack-msg-text code {
-    background: rgba(255,255,255,0.08);
-    color: var(--coral);
-    padding: 2px 6px;
-    font-size: 0.8rem;
-    font-family: 'SF Mono', monospace;
-  }
-  .slack-content h3 {
-    font-family: var(--font-display);
-    font-size: 2rem; font-weight: 400;
-    color: var(--navy);
-    margin-bottom: 20px;
-    line-height: 1.2;
-  }
-  .slack-content p {
-    font-size: 1.1rem;
-    color: var(--gray-600);
-    line-height: 1.75;
-    margin-bottom: 32px;
-  }
-  .slack-features {
-    list-style: none;
-  }
-  .slack-features li {
-    font-size: 1.02rem;
-    color: var(--slate);
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    display: flex; align-items: center; gap: 14px;
-  }
-  .slack-features li::before {
-    content: '→';
-    color: var(--coral);
-    font-weight: 500;
-  }
-
-  /* ========== PRICING ========== */
-  .pricing { background: var(--cream); }
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    max-width: 880px;
-    margin: 48px auto 0;
-  }
-  .pricing-card {
-    background: var(--white);
-    padding: 48px 40px;
-    display: flex; flex-direction: column;
-    position: relative;
-    transition: all 0.3s;
-    border: 1px solid rgba(0,0,0,0.06);
-  }
-  .pricing-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-  }
-  .pricing-card.featured {
-    border-color: var(--coral);
-  }
-  .pricing-card.featured::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 3px; background: var(--coral);
-  }
-  .pricing-tier {
-    font-size: 0.85rem; font-weight: 700;
-    color: var(--gray-500);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-  .pricing-card.featured .pricing-tier { color: var(--coral); }
-  .pricing-desc {
-    font-size: 1.02rem;
-    color: var(--gray-600);
-    line-height: 1.65;
-    margin-bottom: 32px;
-    flex: 1;
-  }
-  .pricing-features {
-    list-style: none;
-    margin-bottom: 36px;
-    flex: 1;
-  }
-  .pricing-features li {
-    font-size: 1rem; color: var(--slate);
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.04);
-    display: flex; align-items: flex-start; gap: 12px;
-  }
-  .pricing-features li::before {
-    content: '✓'; color: var(--coral);
-    font-weight: 700; flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .pricing-btn {
-    display: block; width: 100%; text-align: center;
-    padding: 16px 24px;
-    font-weight: 700; font-size: 0.9rem;
-    text-decoration: none;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    transition: all 0.3s;
-    cursor: pointer; border: none;
-    font-family: var(--font-body);
-  }
-  .pricing-btn.outline {
-    background: transparent;
-    border: 1px solid rgba(0,0,0,0.12);
-    color: var(--navy);
-  }
-  .pricing-btn.outline:hover {
-    border-color: var(--coral);
-    color: var(--coral);
-    background: var(--coral-light);
-  }
-  .pricing-btn.filled {
-    background: var(--navy);
-    color: var(--white);
-    border: 1px solid var(--navy);
-  }
-  .pricing-btn.filled:hover {
-    background: var(--coral);
-    border-color: var(--coral);
-  }
-
-  /* ========== FAQ ========== */
-  .faq { background: var(--white); }
-  .faq-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0 80px;
-    margin-top: 64px;
-  }
-  .faq-item {
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    padding: 28px 0;
-  }
-  .faq-q {
-    font-family: var(--font-display);
-    font-size: 1.5rem; font-weight: 500;
-    color: var(--navy);
-    cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 16px;
-    transition: color 0.2s;
-  }
-  .faq-q:hover { color: var(--coral); }
-  .faq-q .faq-toggle {
-    font-family: var(--font-body);
-    font-size: 1.2rem;
-    color: var(--gray-400);
-    flex-shrink: 0;
-    transition: transform 0.3s, color 0.2s;
-    width: 24px; text-align: center;
-    user-select: none;
-  }
-  .faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--coral); }
-  .faq-a {
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.3s ease;
-  }
-  .faq-item.open .faq-a {
-    max-height: 200px;
-    padding-top: 16px;
-  }
-  .faq-a p {
-    font-size: 1.15rem;
-    color: var(--gray-600);
-    line-height: 1.7;
-  }
-
-  /* ========== FINAL CTA ========== */
-  .final-cta {
-    padding: 120px 40px;
-    background: var(--navy);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .final-cta::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 80%, rgba(212,121,90,0.12) 0%, transparent 50%);
-    pointer-events: none;
-  }
-  .final-cta::after {
-    content: '';
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-    background-size: 80px 80px;
-    pointer-events: none;
-  }
-  .cta-inner {
-    max-width: 700px; margin: 0 auto;
-    position: relative; z-index: 1;
-  }
-  .final-cta .section-eyebrow { color: rgba(255,255,255,0.4); }
-  .final-cta h2 {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 5vw, 3.8rem);
-    font-weight: 400;
-    color: var(--white);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 40px;
-  }
-  .final-cta h2 em { font-style: italic; color: var(--coral); }
-  .final-cta .btn-primary {
-    background: var(--white);
-    color: var(--navy);
-  }
-  .final-cta .btn-primary:hover {
-    background: var(--coral);
-    color: var(--white);
-  }
-
-  /* ========== FOOTER ========== */
-  footer {
-    padding: 40px 40px 40px;
-    background: var(--navy);
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  .footer-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .footer-logo {
-    display: inline-flex; align-items: center; justify-content: center;
-    border: 2px solid rgba(255,255,255,0.2);
-    padding: 6px 14px;
-    text-decoration: none;
-  }
-  .footer-logo-text {
-    font-family: var(--font-body);
-    font-weight: 800; font-size: 0.8rem;
-    color: rgba(255,255,255,0.4);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-  .footer-links { display: flex; gap: 32px; }
-  .footer-links a {
-    font-size: 0.95rem; color: rgba(255,255,255,0.35);
-    text-decoration: none; transition: color 0.2s;
-  }
-  .footer-links a:hover { color: rgba(255,255,255,0.7); }
-  .footer-copy {
-    font-size: 0.9rem; color: rgba(255,255,255,0.25);
-  }
-
-  /* ========== RESPONSIVE ========== */
-  @media (max-width: 1024px) {
-    .agents-grid { grid-template-columns: 1fr; }
-    .how-grid { grid-template-columns: repeat(2, 1fr); }
-    .slack-grid { grid-template-columns: 1fr; gap: 48px; }
-    .pricing-grid { grid-template-columns: 1fr; max-width: 440px; }
-    .faq-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 768px) {
-    .section-pad { padding: 100px 24px; }
-    .hero { padding: 120px 24px 80px; }
-    .nav-links { display: none; }
-    .hamburger { display: block; }
-    .nav-inner { padding: 0 24px; }
-    .how-grid { grid-template-columns: 1fr; }
-    .how-step { border-left: none; border-bottom: 1px solid rgba(0,0,0,0.06); }
-    .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
-    .footer-links { flex-wrap: wrap; justify-content: center; }
-    .agent-card { padding: 36px 28px; }
-    .pricing-card { padding: 36px 28px; }
-    .final-cta { padding: 100px 24px; }
-  }
-
-  /* ========== SCROLL ANIMATIONS ========== */
-  .reveal {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a href="#" class="logo">
-      <span class="logo-text">Termstack</span>
-    </a>
-    <div class="nav-links">
-      <a href="#serve">Who we serve</a>
-      <a href="#how">How it works</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
-      <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="nav-cta">Book a demo</a>
-    </div>
-    <button class="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="glyph"><i></i><i></i><i></i></span>Termstack</a>
+    <nav class="nav-links">
+      <a href="#build">What we build</a>
+      <a href="#stack">The stack</a>
+      <a href="#fits">Where AI fits</a>
+      <a href="#contact" class="btn btn-accent">Start a conversation</a>
+    </nav>
   </div>
-</nav>
+</header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow reveal">Legal agents for founders & VC funds</div>
-    <h1 class="reveal reveal-delay-1">Close deals faster.<br>From <em>term sheet</em> to signed.</h1>
-    <p class="hero-sub reveal reveal-delay-2">Termstack handles the legal complexity of venture transactions — so founders can focus on building and funds can focus on investing.</p>
-    <div class="hero-actions reveal reveal-delay-3">
-      <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="btn-primary">
-        Book a demo
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
+<main id="top">
 
-<div class="divider"></div>
-
-<!-- WHO WE SERVE -->
-<section class="agents section-pad" id="serve">
-  <div class="section-inner">
-    <div class="section-eyebrow reveal">Who we serve</div>
-    <h2 class="section-title reveal">Built for both sides<br>of the deal table.</h2>
-    <p class="section-sub reveal">Whether you're a VC fund managing a portfolio or a startup closing your next round, Termstack's lawyer-supervised agents handle the documents.</p>
-
-    <div class="agents-grid">
-      <!-- VC Funds card -->
-      <div class="agent-card reveal">
-        <div class="agent-label">For VC funds</div>
-        <h3>Move faster on complex fund transactions.</h3>
-        <p>Termstack helps venture capital funds draft, review, and manage the full range of investment and fund documents — with lawyer supervision on every output.</p>
-        <div class="agent-tags">
-          <span class="agent-tag">Subscription Agreements</span>
-          <span class="agent-tag">Side Letters</span>
-          <span class="agent-tag">Secondaries</span>
-          <span class="agent-tag">Management Agreements</span>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">AI implementation for law firms</span>
+        <h1 class="display">Turn complex legal workflows into a reliable AI stack.</h1>
+        <p class="lead">Termstack is a team of lawyers and engineers. We find where AI fits, choose the right technology for your team, and build it to production standards, layer by layer.</p>
+        <div class="hero-actions">
+          <a class="btn btn-accent" href="#contact">Start a conversation <span class="ar">&rarr;</span></a>
+          <a class="btn btn-ghost" href="#stack">See the stack <span class="ar">&rarr;</span></a>
         </div>
       </div>
-      <!-- Startups card -->
-      <div class="agent-card reveal reveal-delay-1">
-        <div class="agent-label">For startups</div>
-        <h3>Close your round without the legal overhead.</h3>
-        <p>Termstack helps founders draft and finalize the agreements they need to raise capital and run the business — without expensive outside counsel for every document.</p>
-        <div class="agent-tags">
-          <span class="agent-tag">SAFEs</span>
-          <span class="agent-tag">Term Sheets</span>
-          <span class="agent-tag">Venture Debt</span>
-          <span class="agent-tag">Commercial Agreements</span>
+      <div class="stack-wrap">
+        <div class="stack" aria-label="The layers of a production AI system Termstack builds">
+          <div class="layer"><div class="li"><span class="ix">01</span><span class="nm">Interface</span></div><span class="desc">where your teams work</span></div>
+          <div class="layer"><div class="li"><span class="ix">02</span><span class="nm">AI core</span></div><span class="desc">grounded in firm data</span></div>
+          <div class="layer"><div class="li"><span class="ix">03</span><span class="nm">Orchestration</span></div><span class="desc">the workflow logic</span></div>
+          <div class="layer accent"><div class="li"><span class="ix">04</span><span class="nm">Observability</span></div><span class="desc">monitoring + call tracing</span></div>
+          <div class="layer"><div class="li"><span class="ix">05</span><span class="nm">Feedback</span></div><span class="desc">capture + evaluation</span></div>
+          <div class="base">Your environment &middot; your data</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- HOW IT WORKS -->
-<section class="how-it-works section-pad" id="how">
-  <div class="section-inner">
-    <div class="section-eyebrow reveal">How it works</div>
-    <h2 class="section-title reveal">From first question to<br>signed financing documents.</h2>
-    <p class="section-sub reveal">Tell us about your deal in Slack and we'll draft, review, and finalize your agreements end-to-end. You pay for a completed deal, not a software subscription.</p>
-
-    <div class="how-grid">
-      <div class="how-step reveal">
-        <div class="how-step-num">i.</div>
-        <h3>Connect Slack</h3>
-        <p>Add Termstack to your workspace. Your agents live in channels your team already uses.</p>
-      </div>
-      <div class="how-step reveal reveal-delay-1">
-        <div class="how-step-num">ii.</div>
-        <h3>Ask or request</h3>
-        <p>Tag the right agent with a question or document request. Natural language — no legal jargon required.</p>
-      </div>
-      <div class="how-step reveal reveal-delay-2">
-        <div class="how-step-num">iii.</div>
-        <h3>Lawyer reviews</h3>
-        <p>A lawyer supervises the agent's output, removing liability risk while AI handles the intelligence-heavy drafting.</p>
-      </div>
-      <div class="how-step reveal reveal-delay-3">
-        <div class="how-step-num">iv.</div>
-        <h3>Sign & close</h3>
-        <p>Receive polished, lawyer-reviewed documents ready for signature. Keep everything organized in your workspace.</p>
+    <div class="wrap">
+      <div class="hero-meta">
+        <span class="m"><b></b> Lawyers and engineers, one firm</span>
+        <span class="m"><b></b> Production systems, not demos</span>
+        <span class="m"><b></b> Monitored and traceable from day one</span>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="divider"></div>
-
-<!-- SLACK INTEGRATION -->
-<section class="slack-section section-pad" id="slack">
-  <div class="section-inner">
-    <div class="slack-grid">
-      <div class="slack-visual reveal" style="background: #fff; padding: 0; overflow: hidden; border: 1px solid rgba(0,0,0,0.1);">
-        <div style="display: flex; height: 100%;">
-          <!-- Sidebar -->
-          <div style="width: 220px; background: var(--navy); padding: 16px 12px; flex-shrink: 0;">
-            <div style="font-weight: 700; font-size: 0.85rem; color: #fff; margin-bottom: 16px; padding: 4px 8px;">Acme Inc ▾</div>
-            <div style="font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.4); letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 8px; margin-bottom: 6px;">Channels</div>
-            <div style="font-size: 0.8rem; color: rgba(255,255,255,0.5); padding: 4px 8px; margin-bottom: 2px;"># general</div>
-            <div style="font-size: 0.8rem; color: rgba(255,255,255,0.5); padding: 4px 8px; margin-bottom: 2px;"># engineering</div>
-            <div style="font-size: 0.8rem; color: #fff; padding: 4px 8px; margin-bottom: 2px; background: rgba(255,255,255,0.1); border-radius: 4px;"># termstack-legal</div>
-            <div style="font-size: 0.8rem; color: rgba(255,255,255,0.5); padding: 4px 8px; margin-bottom: 2px;"># fundraising</div>
-          </div>
-          <!-- Chat area -->
-          <div style="flex: 1; display: flex; flex-direction: column; background: #fff;">
-            <!-- Channel header -->
-            <div style="padding: 12px 20px; background: var(--navy); display: flex; align-items: center; gap: 8px;">
-              <span style="font-weight: 700; font-size: 0.85rem; color: #fff;"># termstack-legal</span>
-            </div>
-            <!-- Messages -->
-            <div style="padding: 20px; flex: 1;">
-              <div class="slack-msg">
-                <div class="slack-avatar user" style="background: rgba(0,0,0,0.08); color: var(--slate);">AK</div>
-                <div class="slack-msg-body">
-                  <div class="slack-msg-name" style="color: var(--navy);">Alex Kim <span style="color: var(--gray-400);">10:42 AM</span></div>
-                  <div class="slack-msg-text" style="color: var(--slate);">@termstack We're closing our seed round. Can you draft the NVCA stock purchase agreement? $4M pre-money, 20% option pool.</div>
-                </div>
-              </div>
-              <div class="slack-msg">
-                <div class="slack-avatar bot">TS</div>
-                <div class="slack-msg-body">
-                  <div class="slack-msg-name" style="color: var(--navy);">Termstack <span style="background: rgba(212,121,90,0.15); color: var(--coral); padding: 1px 5px; border-radius: 3px; font-size: 0.6rem; font-weight: 600; margin-left: 6px;">APP</span> <span style="color: var(--gray-400);">10:42 AM</span></div>
-                  <div class="slack-msg-text" style="color: var(--slate);">On it. I'll draft the SPA based on standard NVCA terms with your cap table details. A lawyer will review before delivery. One moment...</div>
-                </div>
-              </div>
-              <div class="slack-msg">
-                <div class="slack-avatar bot">TS</div>
-                <div class="slack-msg-body">
-                  <div class="slack-msg-name" style="color: var(--navy);">Termstack <span style="background: rgba(212,121,90,0.15); color: var(--coral); padding: 1px 5px; border-radius: 3px; font-size: 0.6rem; font-weight: 600; margin-left: 6px;">APP</span> <span style="color: var(--gray-400);">10:48 AM</span></div>
-                  <div class="slack-msg-text" style="color: var(--slate);">Lawyer-reviewed and ready →<br><span style="display: inline-flex; align-items: center; gap: 6px; background: var(--cream); padding: 8px 12px; margin-top: 8px; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span style="color: var(--navy); font-size: 0.8rem; font-weight: 500;">SPA_SeedRound_v1.docx</span></span></div>
-                </div>
-              </div>
-            </div>
-            <!-- Input bar -->
-            <div style="padding: 12px 20px; border-top: 1px solid rgba(0,0,0,0.06);">
-              <div style="background: var(--cream); border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; padding: 10px 14px; font-size: 0.8rem; color: var(--gray-400);">Message #termstack-legal</div>
-            </div>
-          </div>
-        </div>
+  <!-- WHAT WE BUILD -->
+  <section class="sec" id="build">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow reveal">What we build</span>
+        <h2 class="h2 reveal d1">From a change in a tool you already use, to software that does not exist yet.</h2>
+        <p class="lead reveal d2">We meet your systems where they are and work at the level that returns the most for your teams.</p>
       </div>
-      <div class="slack-content reveal" style="text-align: left;">
-        <div class="section-eyebrow" style="text-align: left;">Direct to client</div>
-        <h3 style="text-align: left;">We work with you directly, not your outside counsel.</h3>
-        <p>Termstack sells to the company or fund that needs agreements drafted — not to the law firm. You purchase the outcome, not the software.</p>
-        <ul class="slack-features">
-          <li>Lawyer-supervised agent on every output</li>
-          <li>Compounding data advantage on every draft</li>
-          <li>Generate documents directly in Slack</li>
-          <li>Full audit trail of every interaction</li>
-          <li>Legal brain for your team</li>
-        </ul>
+      <div class="cards">
+        <div class="card reveal"><div class="ci">01 / Refine</div><h3>Refine the tools you have.</h3><p>Changes to the interfaces your teams already work in, so AI-assisted work feels native and surfaces where the decision is made.</p></div>
+        <div class="card reveal d1"><div class="ci">02 / Embed</div><h3>Embed AI into your systems.</h3><p>Features that place an AI core inside the tools your teams and clients already depend on, so adoption does not require a new habit.</p></div>
+        <div class="card reveal d2"><div class="ci">03 / Build</div><h3>Build what is missing.</h3><p>Net-new internal tools and client-facing applications that let your people adopt entirely new workflows, from intake through to delivery.</p></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="divider"></div>
-
-<!-- PRICING -->
-<section class="pricing section-pad" id="pricing">
-  <div class="section-inner">
-    <div class="section-eyebrow reveal">Pricing</div>
-    <h2 class="section-title reveal">A fraction of what you'd pay<br>a startup lawyer.</h2>
-    <p class="section-sub reveal">No billable hours. No surprise invoices. Flat-rate pricing for your entire deal.</p>
-
-    <div class="pricing-grid">
-      <div class="pricing-card featured reveal">
-        <div class="pricing-tier">For VC Funds</div>
-        <div class="pricing-desc">For venture capital funds managing investments and secondary transactions. Lawyer-supervised documents at fund speed.</div>
-        <ul class="pricing-features">
-          <li>Subscription agreements</li>
-          <li>Management agreements</li>
-          <li>Equity financings</li>
-          <li>Side letters</li>
-          <li>Secondaries</li>
-          <li>Lawyer-supervised on every output</li>
-          <li>Dedicated support</li>
-        </ul>
-        <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="pricing-btn filled">Book a demo</a>
+  <!-- THE STACK (dark) -->
+  <section class="sec deep on-dark" id="stack">
+    <div class="wrap deep-grid">
+      <div class="sec-head" style="max-width:none;">
+        <span class="eyebrow reveal">The stack</span>
+        <h2 class="h2 reveal d1">Every layer built to run in production.</h2>
+        <p class="lead reveal d2">A demo proves little. We assemble each system from layers that are reliable, observable, and built to improve while they run under real conditions.</p>
       </div>
-      <div class="pricing-card reveal reveal-delay-1">
-        <div class="pricing-tier">For Startups</div>
-        <div class="pricing-desc">For founders raising venture capital or closing commercial deals. From first SAFE to Series B — and every contract in between.</div>
-        <ul class="pricing-features">
-          <li>SAFEs</li>
-          <li>Equity financings</li>
-          <li>Side letters</li>
-          <li>Secondaries</li>
-          <li>Commercial agreements (ex: non-disclosure, services, and lease agreements)</li>
-          <li>Lawyer-supervised on every output</li>
-          <li>Dedicated support</li>
-        </ul>
-        <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="pricing-btn outline">Book a demo</a>
+      <div class="layers-dark">
+        <div class="dl reveal"><div class="top"><h4>Reliability</h4><span class="pn">01</span></div><p>Predictable behavior under real caseloads, with sensible failure modes when a model does not cooperate.</p></div>
+        <div class="dl reveal d1"><div class="top"><h4>Scalability</h4><span class="pn">02</span></div><p>Architecture that holds as adoption moves from one team to a practice group to the whole firm.</p></div>
+        <div class="dl reveal d2"><div class="top"><h4>Observability and tracing</h4><span class="pn">03</span></div><p>Full visibility into production behavior, including tracing of individual model calls, prompts, and outputs.</p></div>
+        <div class="dl reveal d3"><div class="top"><h4>Feedback and evaluation</h4><span class="pn">04</span></div><p>Mechanisms that capture real-world performance, so the system improves over time rather than freezing at launch.</p></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="divider"></div>
-
-<!-- FAQ -->
-<section class="faq section-pad" id="faq">
-  <div class="section-inner">
-    <div class="section-eyebrow reveal">FAQ</div>
-
-    <div class="faq-grid">
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-          Is this actual legal advice?
-          <span class="faq-toggle">+</span>
-        </div>
-        <div class="faq-a">
-          <p>Every output is supervised by a licensed attorney, removing liability risk while the AI handles the intelligence-heavy drafting. For complex matters, we escalate to full attorney review.</p>
-        </div>
+  <!-- WHERE AI FITS -->
+  <section class="sec" id="fits">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow reveal">Where AI fits</span>
+        <h2 class="h2 reveal d1">We begin where the work is repeatable, high in volume, and open to review.</h2>
+        <p class="lead reveal d2">AI earns its place in specific, bounded workflows, not everywhere at once. A few of the places it tends to pay off.</p>
       </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-          What are NVCA agreements?
-          <span class="faq-toggle">+</span>
-        </div>
-        <div class="faq-a">
-          <p>NVCA agreements are a standardized set of legal documents published by the National Venture Capital Association that are used in U.S. venture capital financings — especially priced equity rounds like Series Seed, Series A, etc.</p>
-        </div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-          Do you work with VC funds directly?
-          <span class="faq-toggle">+</span>
-        </div>
-        <div class="faq-a">
-          <p>Yes. Termstack works with both venture capital funds and the startups they invest in. For funds, we handle subscription agreements, side letters, secondaries, and management agreements. For startups, we cover equity financings and commercial agreements.</p>
-        </div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-          How is this different from other legal AI?
-          <span class="faq-toggle">+</span>
-        </div>
-        <div class="faq-a">
-          <p>Most legal AI builds productivity tools for lawyers. We replace outsourced legal spend, so you never have to see another outrageous legal bill again.</p>
-        </div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-          Is my data secure?
-          <span class="faq-toggle">+</span>
-        </div>
-        <div class="faq-a">
-          <p>Yes. All data is encrypted in transit and at rest. We never train on your data.</p>
-        </div>
-      </div>
-
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-          How fast can I close a deal using Termstack?
-          <span class="faq-toggle">+</span>
-        </div>
-        <div class="faq-a">
-          <p>Most deals close in 1–2 weeks if your investor is still using traditional law firms. If both you and your investor are on Termstack, deals can close in as little as 2–5 business days.</p>
-        </div>
-      </div>
-      <div class="faq-item reveal">
-        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-          What if I have questions after my deal closes?
-          <span class="faq-toggle">+</span>
-        </div>
-        <div class="faq-a">
-          <p>One of our lawyers can work with you to set up a legal agent that becomes the legal brain of your company — ingesting documents and preparing answers for you that get smarter the more questions you ask.</p>
-        </div>
+      <div class="fits">
+        <div class="fitc reveal"><div class="fn">i</div><h4>Document review and diligence</h4><p>First-pass review and issue spotting across large document sets, with a person in the loop.</p></div>
+        <div class="fitc reveal d1"><div class="fn">ii</div><h4>Contract drafting and review</h4><p>Drafting from precedent, redline triage, and clause-level checks against firm standards.</p></div>
+        <div class="fitc reveal d2"><div class="fn">iii</div><h4>Research and memoranda</h4><p>Grounded research and first drafts that cite back to source, kept inside firm-controlled material.</p></div>
+        <div class="fitc reveal"><div class="fn">iv</div><h4>Intake and matter triage</h4><p>Routing, conflict surfacing, and structured capture at the front door of a matter.</p></div>
+        <div class="fitc reveal d1"><div class="fn">v</div><h4>Knowledge management</h4><p>Making a firm's own work product findable and usable instead of trapped in old matters.</p></div>
+        <div class="fitc reveal d2"><div class="fn">vi</div><h4>Client-facing tools</h4><p>Applications that let clients self-serve well-bounded tasks, on rails the firm defines.</p></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FINAL CTA + FOOTER wrapped in navy -->
-<div style="background: var(--navy);">
-<section class="final-cta">
-  <div class="cta-inner">
-    <div class="section-eyebrow reveal" style="text-align:center;">Stop overpaying for legal</div>
-    <h2 class="reveal">Pay for the outcome.<br>Not the <em>billable hour.</em></h2>
-    <a href="https://calendly.com/marissa-termstack/30min" target="_blank" class="btn-primary reveal">
-      Book a demo
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-  </div>
-</section>
+  <!-- TEAM -->
+  <section class="sec team">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow reveal">Lawyers and engineers</span>
+        <h2 class="h2 reveal d1">The judgment to know where AI belongs, and the engineering to ship it.</h2>
+      </div>
+      <div class="team-cols">
+        <div class="tcol reveal"><div class="tn">01</div><h4>We know where AI fits.</h4><p>And where it does not. We help firms separate the workflows AI genuinely improves from the ones better left alone.</p></div>
+        <div class="tcol reveal d1"><div class="tn">02</div><h4>We choose the right technology.</h4><p>Not the demo. The specific model, tooling, and architecture suited to a particular team, matter type, or function.</p></div>
+        <div class="tcol reveal d2"><div class="tn">03</div><h4>We stay through production.</h4><p>Understanding the problem is the start. We carry it to a system running live, accountable for how it behaves.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta on-dark" id="contact">
+    <div class="wrap">
+      <h2>Tell us about the workflow.</h2>
+      <p>Describe a process your teams run today. We will be candid about whether AI improves it, and what it would take to build something you can rely on.</p>
+      <div class="cta-actions">
+        <a class="btn btn-accent" href="mailto:hello@termstack.ai">Start a conversation <span class="ar">&rarr;</span></a>
+        <a class="mail" href="mailto:hello@termstack.ai">hello@termstack.ai</a>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <footer>
-  <div class="footer-inner">
-    <a href="#" class="footer-logo">
-      <span class="footer-logo-text">Termstack</span>
-    </a>
-    <div class="footer-links">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Security</a>
-      <a href="#">Contact</a>
+  <div class="wrap foot-top">
+    <div>
+      <a class="brand" href="#top"><span class="glyph"><i></i><i></i><i></i></span>Termstack</a>
+      <p class="foot-blurb">AI implementation for law firms. A firm of lawyers and engineers who turn complex workflows into reliable AI systems, built and supported through production.</p>
     </div>
-    <div class="footer-copy">© 2026 Termstack.</div>
+    <div class="fcol"><h5>Product</h5><a href="#build">What we build</a><a href="#stack">The stack</a><a href="#fits">Where AI fits</a></div>
+    <div class="fcol"><h5>Work with us</h5><a href="#contact">Start a conversation</a><a href="mailto:hello@termstack.ai">Careers</a></div>
+    <div class="fcol"><h5>Contact</h5><a href="mailto:hello@termstack.ai">hello@termstack.ai</a></div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 Termstack</span>
+    <span>Lawyers and engineers. Built for production.</span>
   </div>
 </footer>
-</div>
 
 <script>
-// Scroll reveal
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
-reveals.forEach(el => observer.observe(el));
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hdr = document.getElementById('hdr');
+  function onScroll(){ if(window.scrollY>30) hdr.classList.add('scrolled'); else hdr.classList.remove('scrolled'); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.14,rootMargin:'0px 0px -6% 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  } else { document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');}); }
+})();
 </script>
 </body>
 </html>
