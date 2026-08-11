@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About us | Termstack</title>
+<meta name="description" content="Who we are and why we built Termstack." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --ink:#16181C;
+    --muted:#6A6F76;
+    --line:#E4E3DE;
+    --accent:#2B4ED6;
+    --red:#D02B2B;
+    --display:"Schibsted Grotesk",system-ui,sans-serif;
+    --body:"Schibsted Grotesk",system-ui,sans-serif;
+    --gutter:clamp(20px,5vw,72px);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--body);font-size:17px;line-height:1.55;
+    display:flex;flex-direction:column;min-height:100vh;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--ink);color:#fff;}
+
+  .mark{font-family:var(--display);font-weight:700;line-height:0.88;letter-spacing:-0.045em;margin:0;}
+
+  .top{
+    display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+    padding:clamp(28px,4vw,48px) var(--gutter) 0;
+  }
+  .wordmark{font-size:17px;line-height:1.2;}
+  .dot{color:var(--red);}
+  .back{color:var(--muted);padding-top:1px;white-space:nowrap;transition:color .2s;}
+  .back:hover{color:var(--ink);}
+
+  .intro{padding:clamp(56px,9vw,110px) var(--gutter) clamp(40px,6vw,64px);}
+  .intro h1{font-size:clamp(2.4rem,7.5vw,6rem);max-width:15ch;text-transform:uppercase;}
+  .intro p{margin:clamp(26px,3.6vw,40px) 0 0;line-height:1.45;max-width:clamp(46ch,58vw,76ch);color:var(--muted);}
+  .intro p+p{margin-top:1.1em;}
+
+  .sec{padding:0 var(--gutter) clamp(40px,6vw,72px);}
+  .sec-label{
+    padding:clamp(34px,4.5vw,56px) 0 clamp(18px,2.4vw,28px);
+    font-weight:700;text-transform:uppercase;
+  }
+  .row{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);
+    gap:clamp(16px,4vw,56px);
+    padding:clamp(24px,3vw,36px) 0;border-top:1px solid var(--line);
+  }
+  .sec .row:last-of-type{border-bottom:1px solid var(--line);}
+  .row h2{font-family:var(--display);font-weight:700;margin:0;line-height:1.3;font-size:17px;}
+  .row .stage{color:var(--muted);font-weight:400;display:block;margin-top:4px;}
+  .row p{margin:0;color:var(--muted);max-width:clamp(46ch,52vw,72ch);}
+  .row p+p{margin-top:1.1em;}
+
+  .close{padding:clamp(56px,8vw,96px) var(--gutter);border-top:1px solid var(--line);}
+  .close h2{font-size:17px;text-transform:uppercase;line-height:1.3;}
+  .close-note{margin:clamp(18px,2.4vw,26px) 0 0;color:var(--muted);max-width:clamp(42ch,50vw,68ch);}
+  .close .actions{display:flex;align-items:center;gap:clamp(16px,2.5vw,28px);flex-wrap:wrap;margin-top:clamp(26px,3.6vw,40px);}
+  .book{
+    font-family:var(--display);font-weight:500;
+    background:var(--ink);color:#fff;padding:15px 28px;transition:background .2s;
+  }
+  .book:hover{background:var(--accent);}
+  .mailto{color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:2px;transition:color .2s,border-color .2s;}
+  .mailto:hover{color:var(--ink);border-color:var(--ink);}
+
+  footer{padding:0 var(--gutter);margin-top:auto;}
+  .foot-bar{
+    border-top:1px solid var(--line);padding:18px 0;
+    display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+    color:var(--muted);
+  }
+  .foot-bar a{border-bottom:1px solid var(--line);padding-bottom:2px;transition:color .2s,border-color .2s;}
+  .foot-bar a:hover{color:var(--ink);border-color:var(--ink);}
+
+  @media(max-width:760px){
+    .row{grid-template-columns:1fr;gap:12px;}
+    .intro h1{max-width:none;}
+  }
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body id="top">
+
+<header class="top">
+  <a href="index.html" class="mark wordmark">TERMSTACK<span class="dot">.</span></a>
+  <a href="index.html" class="back">&larr; Home</a>
+</header>
+
+<section class="intro">
+  <h1 class="mark">Why we are building this.</h1>
+  <p>I practiced at two AmLaw 100 firms. For years I put a question to other lawyers that I could not settle for myself: are you better off as a generalist or a specialist? The answers came back almost evenly split.</p>
+  <p>I was the generalist. Banking, then debt finance, then equity finance, then M&amp;A. Curious, certainly. Focused, I was not. The received wisdom ran against the specialists back then, whose exits looked narrower than an M&amp;A attorney's, right up until the specialist became the most sought-after lawyer in the market.</p>
+  <p>I admire the lawyer who can sit with a thorny regulation until it gives way. That was never going to be me, and the firm was never going to be the place where I found out what was.</p>
+  <p>The question was never really about practice areas. It is about who decides the shape of your practice. Inside a large firm, that answer is mostly made for you. Owning the firm is how you take it back, and the reason more lawyers do not is that the business of running one swallows the practice of law.</p>
+  <p>That is what Termstack is for.</p>
+</section>
+
+<section class="sec">
+  <div class="sec-label">Who this is for</div>
+
+  <div class="row">
+    <h2>Dreamers and hill seekers</h2>
+    <div>
+      <p>Lawyers who want to decide the shape of their own practice, and who would rather spend the next decade building something than waiting to be told what they are.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <h2>Starting out</h2>
+    <div>
+      <p>If you are thinking about leaving to build your own practice, the hardest part is not the legal work. It is everything around it. We build that part so it is there on day one.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <h2>Already going</h2>
+    <div>
+      <p>If you already have a firm and the operations are the thing holding it back, we take them off you and build them to scale.</p>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <h2 class="mark"><a href="pilot.html">Start with a two week pilot.</a></h2>
+  <p class="close-note">Reach out if you are building your own practice, or growing the one you have.</p>
+  <div class="actions">
+    <a class="book" href="https://calendly.com/marissa-termstack/30min" target="_blank">Book a call</a>
+    <a class="mailto" href="mailto:marissa@termstack.ai">marissa@termstack.ai</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-bar">
+    <span>&copy; 2026 Termstack. All rights reserved.</span>
+    <a href="disclaimers.html">Disclaimers &amp; Notices</a>
+  </div>
+</footer>
+
+</body>
+</html>
